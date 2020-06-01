@@ -1,4 +1,4 @@
-package unilink;
+package Model;
 import java.util.*;
 
 public class Event extends Post {

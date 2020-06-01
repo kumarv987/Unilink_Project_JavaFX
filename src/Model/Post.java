@@ -1,4 +1,4 @@
-package unilink;
+package Model;
 import java.util.*;
 
 public abstract class Post {

@@ -1,4 +1,4 @@
-package unilink;
+package Model;
 
 public class Reply {
 	private String postId;
