@@ -69,5 +69,15 @@
             <Button layoutX="633.0" layoutY="9.0" mnemonicParsing="false" style="-fx-background-color: #FF4500;" text="Log Out" />
          </children>
       </AnchorPane>
+      <AnchorPane layoutY="109.0" prefHeight="350.0" prefWidth="700.0">
+         <children>
+            <TableView prefHeight="350.0" prefWidth="701.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

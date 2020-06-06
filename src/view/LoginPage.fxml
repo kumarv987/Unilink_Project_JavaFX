@@ -21,34 +21,29 @@
             <Insets bottom="50.0" />
          </padding>
       </Label>
-      <VBox layoutX="151.0" layoutY="97.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+      <VBox layoutX="151.0" layoutY="80.0" prefHeight="167.0" prefWidth="300.0" spacing="10.0">
          <children>
-            <TextField maxWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" promptText="Username" text="Username">
+            <Label text="Enter Username:">
                <VBox.margin>
-                  <Insets left="90.0" right="50.0" top="10.0" />
+                  <Insets left="108.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="userNameTextField" maxWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" promptText="Username">
+               <VBox.margin>
+                  <Insets left="90.0" right="50.0" />
                </VBox.margin>
                <padding>
                   <Insets left="15.0" />
                </padding>
             </TextField>
-            <Button mnemonicParsing="false" text="Enter">
+            <Button fx:id="enterButton" mnemonicParsing="false" onAction="#enterButtonPushed" text="Enter">
                <VBox.margin>
                   <Insets left="130.0" />
                </VBox.margin>
             </Button>
+            <Label fx:id="userNameWarningLabel" alignment="CENTER" prefHeight="17.0" prefWidth="312.0" textAlignment="CENTER" />
          </children>
       </VBox>
-      <HBox layoutX="525.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="70.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="525.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="250.0">
-         <children>
-            <Button mnemonicParsing="false" mouseTransparent="true" prefHeight="24.0" prefWidth="42.0" style="-fx-background-color: #FFD700;" text="EXIT">
-               <HBox.margin>
-                  <Insets left="12.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-         <cursor>
-            <Cursor fx:constant="SW_RESIZE" />
-         </cursor>
-      </HBox>
+      <Button fx:id="exitButton" alignment="CENTER" layoutX="544.0" layoutY="261.0" mnemonicParsing="false" text="EXIT" />
    </children>
 </AnchorPane>
