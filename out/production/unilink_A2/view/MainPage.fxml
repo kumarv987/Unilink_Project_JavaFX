@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPageController">
+   <children>
+      <VBox prefHeight="57.0" prefWidth="700.0">
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="161.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Unilink">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Data">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="700.0">
+              <items>
+                <Button graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #66CDAA;" text="New Event Post">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #F4A460;" text="New Sale Post">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #Add8E6;" text="New Job post">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" textAlignment="RIGHT" wrappingWidth="55.0" />
+                  <ChoiceBox minHeight="30.0" prefWidth="50.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" textAlignment="RIGHT" wrappingWidth="55.0" />
+                  <ChoiceBox minHeight="30.0" prefWidth="50.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Creator:" textAlignment="RIGHT" wrappingWidth="55.0" />
+                  <ChoiceBox minHeight="30.0" prefWidth="80.0" />
+              </items>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </ToolBar>
+         </children>
+      </VBox>
+      <HBox layoutY="75.0" prefHeight="35.0" prefWidth="700.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="200.0" text="Label" />
+            <Label prefHeight="35.0" prefWidth="250.0" text="Label" />
+         </children>
+      </HBox>
+      <AnchorPane layoutY="458.0" prefHeight="42.0" prefWidth="700.0">
+         <children>
+            <Button layoutX="633.0" layoutY="9.0" mnemonicParsing="false" style="-fx-background-color: #FF4500;" text="Log Out" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

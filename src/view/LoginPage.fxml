@@ -11,7 +11,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginPageController">
    <children>
       <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-3.0" prefHeight="103.0" prefWidth="600.0" text="Welcome to the Unilink System!">
@@ -24,7 +23,7 @@
       </Label>
       <VBox layoutX="151.0" layoutY="97.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
          <children>
-            <TextField maxWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" promptText="Enter Username" text="Enter Username">
+            <TextField maxWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" promptText="Username" text="Username">
                <VBox.margin>
                   <Insets left="90.0" right="50.0" top="10.0" />
                </VBox.margin>
@@ -41,12 +40,15 @@
       </VBox>
       <HBox layoutX="525.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="70.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="525.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="250.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="42.0" style="-fx-background-color: #FFD700;" text="EXIT">
+            <Button mnemonicParsing="false" mouseTransparent="true" prefHeight="24.0" prefWidth="42.0" style="-fx-background-color: #FFD700;" text="EXIT">
                <HBox.margin>
                   <Insets left="12.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
+         <cursor>
+            <Cursor fx:constant="SW_RESIZE" />
+         </cursor>
       </HBox>
    </children>
 </AnchorPane>

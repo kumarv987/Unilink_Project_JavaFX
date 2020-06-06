@@ -22,7 +22,6 @@ public class UniLinkGUI extends Application {
     private void loginPageEntry(Stage stage){
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"));
-
             Scene scene = new Scene(root);
             stage.setTitle("Login");
             stage.setScene(scene);
