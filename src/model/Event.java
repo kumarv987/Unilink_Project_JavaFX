@@ -1,4 +1,6 @@
 package model;
+import javafx.scene.image.Image;
+
 import java.util.*;
 
 public class Event extends Post {
@@ -10,8 +12,8 @@ public class Event extends Post {
 	private int attCount;
 	
 	//Constructor that calls constructor of Post class first
-	public Event(String title, String desc, String studId, String venue, String date, int capacity) {
-		super(title,desc,studId);
+	public Event(String title, String desc, String venue, String date, int capacity) {
+		super(title,desc);
 		this.venue = venue;
 		this.date = date;
 		this.capacity = capacity;
@@ -20,6 +22,18 @@ public class Event extends Post {
 		generateId();
 		super.setPostId(getEventId());
 	}
+
+	public Event(String title, String desc, String venue, String date, int capacity, Image photo) {
+		super(title,desc,photo);
+		this.venue = venue;
+		this.date = date;
+		this.capacity = capacity;
+		this.attCount = 0;
+		setNumId(++numId);
+		generateId();
+		super.setPostId(getEventId());
+	}
+
 	
 	//3 Getter methods
 	public int getNumId() {

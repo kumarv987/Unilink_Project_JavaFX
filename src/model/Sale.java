@@ -1,5 +1,6 @@
 package model;
 
+import javafx.scene.image.Image;
 import java.util.ArrayList;
 
 public class Sale extends Post{
@@ -10,8 +11,18 @@ public class Sale extends Post{
 	private static int saleNumId = 0;
 	
 	//Constructor that calls constructor of Post class first
-	public Sale(String title, String desc, String studId, double askPrice, double minRaise) {
-		super(title,desc,studId);
+	public Sale(String title, String desc, double askPrice, double minRaise) {
+		super(title,desc);
+		this.askPrice = askPrice;
+		this.minRaise = minRaise;
+		this.highOffer = 0;
+		setSaleNumId(++saleNumId);
+		generateSaleId();
+		super.setPostId(getSaleId());
+	}
+
+	public Sale(String title, String desc, double askPrice, double minRaise, Image image) {
+		super(title,desc,image);
 		this.askPrice = askPrice;
 		this.minRaise = minRaise;
 		this.highOffer = 0;
@@ -77,7 +88,7 @@ public class Sale extends Post{
 			return false;
 		}
 		else if(reply.getValue() >= this.askPrice) {
-			System.out.println("Congratulations! The "+ super.getTitle() + " has been sold to you.\n" + "Please contact the owner " + super.getStudId()+" for more details.\n");
+			//System.out.println("Congratulations! The "+ super.getTitle() + " has been sold to you.\n" + "Please contact the owner " + super.getStudId()+" for more details.\n");
 			super.getReplies().add(reply);
 			this.highOffer = reply.getValue();
 			super.setStatus("CLOSED");

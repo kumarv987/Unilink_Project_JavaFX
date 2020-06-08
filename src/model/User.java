@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
     private String userName;
-    private ArrayList<Post> userPosts;
+    private ArrayList<Post> userPosts = new ArrayList<>();
 
     //Constructor
     public User(String userName){
@@ -23,5 +23,10 @@ public class User {
 
     public void setUserPosts(ArrayList<Post> userPosts) {
         this.userPosts = userPosts;
+    }
+
+    //This method adds a new post to the userPosts
+    public void addPostToUserPosts(Post post){
+        this.userPosts.add(post);
     }
 }

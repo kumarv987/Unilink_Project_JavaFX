@@ -1,5 +1,6 @@
 package model;
 
+import javafx.scene.image.Image;
 import java.util.ArrayList;
 
 public class Job extends Post{
@@ -9,8 +10,17 @@ public class Job extends Post{
 	private double lowOffer;
 	
 	//Constructor that calls constructor of Post class first
-	public Job(String title, String desc, String studId, double propPrice) {
-		super(title,desc,studId);
+	public Job(String title, String desc, double propPrice) {
+		super(title,desc);
+		this.propPrice = propPrice;
+		this.lowOffer = 0;
+		setJobNumId(++jobNumId);
+		generateJobId();
+		super.setPostId(getJobId());
+	}
+
+	public Job(String title, String desc, double propPrice, Image image) {
+		super(title,desc,image);
 		this.propPrice = propPrice;
 		this.lowOffer = 0;
 		setJobNumId(++jobNumId);

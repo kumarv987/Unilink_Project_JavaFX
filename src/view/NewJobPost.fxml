@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewJobPostController">
+   <children>
+      <Label alignment="CENTER" prefHeight="52.0" prefWidth="700.0" style="-fx-background-color: Add8E6;" text="New Job Post">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <HBox layoutY="70.0" prefHeight="170.0" prefWidth="700.0" spacing="100.0">
+         <children>
+            <ImageView fx:id="photo" fitHeight="170.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="323.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.0" minWidth="10.0" prefWidth="103.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="220.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Name:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Description:" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Proposed price:" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
+                  <TextField fx:id="propPriceTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+      <HBox layoutY="250.0" prefHeight="57.0" prefWidth="700.0" spacing="250.0">
+         <children>
+            <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadButtonPushed" text="Upload Image" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonPushed" text="Save" />
+         </children>
+         <padding>
+            <Insets left="50.0" />
+         </padding>
+      </HBox>
+      <Button fx:id="backButton" layoutX="554.0" layoutY="455.0" mnemonicParsing="false" onAction="#backButtonPushed" text="Back to Main Window" />
+      <Label fx:id="exceptionLabel" layoutX="336.0" layoutY="297.0" prefHeight="25.0" prefWidth="323.0" />
+   </children>
+</AnchorPane>

@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Service;
 import model.User;
 import javafx.event.ActionEvent;
 import java.io.IOException;
@@ -19,46 +18,72 @@ import java.util.ResourceBundle;
 
 public class LoginPageController implements Initializable {
 
-    //Variables for model package
-    private Service modelServiceHandler = new Service();
-
     // Variables from the Login window
     @FXML private Button enterButton;
     @FXML private Button exitButton;
     @FXML private TextField userNameTextField;
     @FXML private Label userNameWarningLabel;
 
+
+    /*******************************************************************************************************************
+     * This method updates all the information in the database before logging out of the system.
+     ******************************************************************************************************************/
+    public void exitButtonPushed(){
+
+    }
+
     /*******************************************************************************************************************
      * This method first checks if the anything is entered in the userNameTextField, then save the userName info, and
      * finally loads the next screen.
      ******************************************************************************************************************/
-    public void enterButtonPushed(ActionEvent event) throws IOException, NullPointerException {
+    public void enterButtonPushed(ActionEvent event) throws IOException {
         //If the nothing is entered in the userName text field then showcase the warning
         if(userNameTextField.getText().equalsIgnoreCase("")){
         String messageLabelWarning = "You must enter a Username first!!\n";
             this.userNameWarningLabel.setText(messageLabelWarning);
-        } else {
-            //Create new instance for user and add it to the listOfUsers
-            User newUser = new User(userNameTextField.getText());
-            modelServiceHandler.addUsersToListOfUsers(newUser);
-
-            //Setting a new stage
-            changeScreen(event);
         }
+        else {
+            //Check if user already exists
+            boolean doesUserExist = checkIfUserExists(userNameTextField.getText());
+            if(doesUserExist == false) {
+                //Create new instance for user and add it to the listOfUsers
+                User newUser = new User(userNameTextField.getText());
+                MainPageController.listOfUsers.add(newUser);
+            }
+            MainPageController.currentUserName = userNameTextField.getText();
+
+            //Going to MainPage
+            changeScreenToMainWindow(event);
+        }
+    }
+
+    /*******************************************************************************************************************
+     * This method checks if the user already exists or not. If user exists then it returns true otherwise false
+     ******************************************************************************************************************/
+    public boolean checkIfUserExists(String userName){
+        if (!MainPageController.listOfUsers.isEmpty()) {
+            for (User userInfo : MainPageController.listOfUsers) {
+                if (userInfo.getUserName().equalsIgnoreCase(userName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*******************************************************************************************************************
      * This method changes the screen when Submit button is pressed with userName entered
      ******************************************************************************************************************/
-    private void changeScreen(ActionEvent event) throws IOException{
+    public void changeScreenToMainWindow(ActionEvent event) throws IOException{
         //Now loading the new stage
         Parent mainWindowParent = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
         Scene mainWindowScene = new Scene(mainWindowParent);
 
         //This line get the stage information
-        Stage mainWindowStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        mainWindowStage.setScene(mainWindowScene);
-        mainWindowStage.show();
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setTitle("Main Window");
+        window.setScene(mainWindowScene);
+        window.show();
     }
 
     @Override

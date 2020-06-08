@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewEventPostController">
+   <children>
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="700.0" style="-fx-background-color: #66CDAA;" text="New Event Post">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <HBox layoutX="14.0" layoutY="69.0" prefHeight="218.0" prefWidth="671.0" spacing="50.0">
+         <children>
+            <ImageView fx:id="photo" fitHeight="182.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets top="25.0" />
+               </HBox.margin>
+            </ImageView>
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="181.0" prefWidth="393.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="78.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0" minWidth="10.0" prefWidth="325.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+               <children>
+                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="43.0" text="Name:" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" text="Description:" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" text="Venue:" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" text="Date:" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_CENTER" text="Capacity:" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="descriptionTextArea" prefHeight="33.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="nameTextField" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="venueTextField" prefHeight="18.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="dateTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="capacityTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+      <HBox layoutX="-1.0" layoutY="287.0" prefHeight="53.0" prefWidth="700.0" spacing="150.0">
+         <children>
+            <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadButtonPushed" text="Upload Image">
+               <HBox.margin>
+                  <Insets left="70.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonPushed" text="Save">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Label fx:id="exceptionLabel" layoutX="251.0" layoutY="340.0" prefHeight="45.0" prefWidth="432.0" />
+      <Button fx:id="backButton" layoutX="566.0" layoutY="461.0" mnemonicParsing="false" onAction="#backButtonPushed" text="Back To Main Page" />
+      <Label fx:id="exceptionLabel" layoutX="336.0" layoutY="340.0" prefHeight="17.0" prefWidth="191.0" />
+   </children>
+</AnchorPane>

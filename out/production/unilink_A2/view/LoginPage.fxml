@@ -44,6 +44,6 @@
             <Label fx:id="userNameWarningLabel" alignment="CENTER" prefHeight="17.0" prefWidth="312.0" textAlignment="CENTER" />
          </children>
       </VBox>
-      <Button fx:id="exitButton" alignment="CENTER" layoutX="544.0" layoutY="261.0" mnemonicParsing="false" text="EXIT" />
+      <Button fx:id="exitButton" alignment="CENTER" layoutX="544.0" layoutY="261.0" mnemonicParsing="false" onAction="#exitButtonPushed" text="EXIT" />
    </children>
 </AnchorPane>

@@ -1,21 +1,33 @@
 package model;
+import javafx.scene.image.Image;
+
 import java.util.*;
 
 public abstract class Post {
 	private String postId;
 	private String title;
 	private String desc;
-	private String studId;
+	//private String studId;
 	private String status;
 	private ArrayList<Reply> replies;
+	private Image photo;
 	
 	//Constructor
-	public Post(String title, String desc, String studId) {
+	public Post(String title, String desc) {
 		this.title = title;
 		this.desc = desc;
-		this.studId = studId;
+		//this.studId = studId;
 		this.status = "OPEN";
 		this.replies= new ArrayList<Reply>();
+		this.photo = new Image("file:images/No_image_available.svg");
+	}
+
+	public Post(String title, String desc, Image photo){
+		this.title = title;
+		this.desc = desc;
+		this.status = "OPEN";
+		this.replies=new ArrayList<>();
+		this.photo = photo;
 	}
 	
 	//5 getter methods
@@ -27,16 +39,16 @@ public abstract class Post {
 		return replies;
 	}
 	
-	public String getStudId() {
-		return studId;
-	}
-	
 	public String getTitle() {
 		return title;
 	}
 	
 	public String getStatus() {
 		return status;
+	}
+
+	public Image getPhoto() {
+		return photo;
 	}
 	
 	//3 setter methods
@@ -51,13 +63,16 @@ public abstract class Post {
 	public void setStatus(String s) {
 		this.status = s;
 	}
+
+	public void setImage(Image photo){
+		this.photo = photo;
+	}
 	
 	public String getPostDetails() { 
 		StringBuilder str1 = new StringBuilder("Title:         " +this.title + "\n");
 		StringBuilder str2 = new StringBuilder("Description:   " +this.desc + "\n");
-		StringBuilder str3 = new StringBuilder("Creator ID:    " +this.studId + "\n");
-		StringBuilder str4 = new StringBuilder("Status:        " +this.status + "\n");
-		return str1.append(str2).append(str3).append(str4).toString();
+		StringBuilder str3 = new StringBuilder("Status:        " +this.status + "\n");
+		return str1.append(str2).append(str3).toString();
 	}
 	
 	//This is a dummy method so that it can be overridden by subclass method
@@ -70,4 +85,6 @@ public abstract class Post {
 	public abstract String getReplyDetails();
 	public abstract void printType();
 	public abstract boolean responseChecker(String resp);
+
+
 }

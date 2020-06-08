@@ -12,7 +12,7 @@ public class UnilinkMain {
 		int choice = 1;
 		ArrayList<Post> user = new ArrayList<Post>();
 		int userIndex = 0;
-		
+		/*
 		while(choice != 2) { //This loop checks if choice is 2 then the program will terminate 
 			System.out.println("*****UniLink System*****");
 			System.out.println("1. Log in");
@@ -65,7 +65,7 @@ public class UnilinkMain {
 						System.out.print("Capacity: ");
 						int capacity = scn.nextInt();
 						
-						user.add(new Event(name, desc, userId, venue, date, capacity));
+						user.add(new Event(name, desc, venue, date, capacity));
 						System.out.println("Success! Your event post has been created with id " + user.get(userIndex).getPostId());
 						System.out.println();
 						++userIndex;
@@ -87,7 +87,7 @@ public class UnilinkMain {
 						System.out.print("Minimum raise: ");
 						double minRaise = scn.nextDouble();
 						
-						user.add(new Sale(name, desc, userId, askPrice, minRaise));
+						user.add(new Sale(name, desc, askPrice, minRaise));
 						System.out.println("Success! Your sale post has been created with id " + user.get(userIndex).getPostId());
 						System.out.println();
 						++userIndex;
@@ -106,7 +106,7 @@ public class UnilinkMain {
 						System.out.print("Propose price: ");
 						double propPrice = scn.nextDouble();
 						
-						user.add(new Job(name, desc, userId, propPrice));
+						user.add(new Job(name, desc, propPrice));
 						System.out.println("Success! Your job post has been created with id " + user.get(userIndex).getPostId());
 						System.out.println();
 						++userIndex;
@@ -233,7 +233,7 @@ public class UnilinkMain {
 						}
 					}
 					
-					/*FIND an EXCEPTION WAY*/
+
 					//Logout
 					else if(menuChoice == 9) {}
 					
@@ -249,7 +249,10 @@ public class UnilinkMain {
 				System.out.println("Thank You!! BYE BYE");
 			}
 		}
+
+		 */
 		scn.close();
 		scs.close();
 	}
+
 }
