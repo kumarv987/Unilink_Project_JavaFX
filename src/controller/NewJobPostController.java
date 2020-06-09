@@ -1,6 +1,6 @@
 package controller;
 
-import exceptions.FormNotFilledException;
+import model.exceptions.FormNotFilledException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Job;
-import model.Sale;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -77,13 +77,15 @@ public class NewJobPostController implements Initializable {
                                 addPostToUserPosts(new Job(nameTextField.getText()
                                         , descriptionTextArea.getText()
                                         , Double.parseDouble(propPriceTextField.getText())
-                                        , this.uploadImage));
+                                        , this.uploadImage
+                                        , MainPageController.currentUserName));
                     }
                     else{
                         MainPageController.listOfUsers.get(i).
                                 addPostToUserPosts(new Job(nameTextField.getText()
                                         , descriptionTextArea.getText()
-                                        , Double.parseDouble(propPriceTextField.getText())));
+                                        , Double.parseDouble(propPriceTextField.getText())
+                                        , MainPageController.currentUserName));
                     }
                     //Now disable the save button
                     this.saveButton.setDisable(true);

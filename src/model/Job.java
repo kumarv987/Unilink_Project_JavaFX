@@ -1,28 +1,32 @@
 package model;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Job extends Post{
 	private static int jobNumId = 0;
 	private String jobId;
-	private double propPrice;
-	private double lowOffer;
+	private SimpleDoubleProperty propPrice;
+	private SimpleDoubleProperty lowOffer;
 	
 	//Constructor that calls constructor of Post class first
-	public Job(String title, String desc, double propPrice) {
-		super(title,desc);
-		this.propPrice = propPrice;
-		this.lowOffer = 0;
+	public Job(String title, String desc, double propPrice, String creatorID) throws FileNotFoundException {
+		super(title,desc,creatorID);
+		this.propPrice = new SimpleDoubleProperty(propPrice);
+		this.lowOffer = new SimpleDoubleProperty(0);
 		setJobNumId(++jobNumId);
 		generateJobId();
 		super.setPostId(getJobId());
 	}
 
-	public Job(String title, String desc, double propPrice, Image image) {
-		super(title,desc,image);
-		this.propPrice = propPrice;
-		this.lowOffer = 0;
+	public Job(String title, String desc, double propPrice, Image image, String creatorID) {
+		super(title,desc,image,creatorID);
+		this.propPrice = new SimpleDoubleProperty(propPrice);
+		this.lowOffer = new SimpleDoubleProperty(0);
 		setJobNumId(++jobNumId);
 		generateJobId();
 		super.setPostId(getJobId());
@@ -36,6 +40,14 @@ public class Job extends Post{
 	public String getJobId() {
 		return jobId;
 	}
+
+	public double getPropPrice(){
+		return propPrice.get();
+	}
+
+	public double getLowOffer(){
+		return lowOffer.get();
+	}
 	
 	//2 setter methods
 	public void setJobNumId(int n) {
@@ -45,7 +57,15 @@ public class Job extends Post{
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
 	}
-	
+
+	public void setPropPrice(double propPrice){
+		this.propPrice = new SimpleDoubleProperty(propPrice);
+	}
+
+	public void setLowOffer(double lowOffer){
+		this.lowOffer = new SimpleDoubleProperty(lowOffer);
+	}
+
 	//This method generates Auto Job ID
 	public void generateJobId() {
 		String s1 = "JOB";
@@ -74,13 +94,13 @@ public class Job extends Post{
 	}
 	
 	public boolean handleReply(Reply reply) {
-		if(reply.getValue() > this.propPrice) {
+		if(reply.getValue() > getPropPrice()) {
 			System.out.println("Offer not accepted!\n");
 			return false;
 		}
 		System.out.println("Offer accepted! \n");
 		super.getReplies().add(reply);
-		this.lowOffer = reply.getValue();
+		setLowOffer(reply.getValue());
 		return true;
 	}
 	

@@ -1,41 +1,44 @@
 package model;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Event extends Post {
 	private static int numId = 0;
 	private String eventId;
-	private String venue;
-	private String date;
-	private int capacity;
-	private int attCount;
+	private SimpleStringProperty venue;
+	private SimpleStringProperty date;
+	private SimpleIntegerProperty capacity;
+	private SimpleIntegerProperty attCount;
 	
 	//Constructor that calls constructor of Post class first
-	public Event(String title, String desc, String venue, String date, int capacity) {
-		super(title,desc);
-		this.venue = venue;
-		this.date = date;
-		this.capacity = capacity;
-		this.attCount = 0;
+	public Event(String title, String desc, String venue, String date, int capacity, String creatorID) throws FileNotFoundException {
+		super(title,desc, creatorID);
+		this.venue =new SimpleStringProperty(venue);
+		this.date = new SimpleStringProperty(date);
+		this.capacity = new SimpleIntegerProperty(capacity);
+		this.attCount = new SimpleIntegerProperty(0);
 		setNumId(++numId);
 		generateId();
 		super.setPostId(getEventId());
 	}
 
-	public Event(String title, String desc, String venue, String date, int capacity, Image photo) {
-		super(title,desc,photo);
-		this.venue = venue;
-		this.date = date;
-		this.capacity = capacity;
-		this.attCount = 0;
+	public Event(String title, String desc, String venue, String date, int capacity, Image photo, String creatorID) {
+		super(title,desc,photo,creatorID);
+		this.venue =new SimpleStringProperty(venue);
+		this.date = new SimpleStringProperty(date);
+		this.capacity = new SimpleIntegerProperty(capacity);
+		this.attCount = new SimpleIntegerProperty(0);
 		setNumId(++numId);
 		generateId();
 		super.setPostId(getEventId());
 	}
 
 	
-	//3 Getter methods
+	// Getter methods
 	public int getNumId() {
 		return numId;
 	}
@@ -45,10 +48,22 @@ public class Event extends Post {
 	}
 	
 	public int getAttCount() {
-		return attCount;
+		return attCount.get();
+	}
+
+	public String getVenue(){
+		return venue.get();
+	}
+
+	public String getDate(){
+		return date.get();
+	}
+
+	public int getCapacity(){
+		return capacity.get();
 	}
 	
-	//2 Setter methods
+	//Setter methods
 	public void setEventId(String eId) {
 		this.eventId = eId;
 	}
@@ -56,7 +71,23 @@ public class Event extends Post {
 	public void setNumId(int n) {
 		numId = n;
 	}
-	
+
+	public void setAttCount(int count){
+		this.attCount = new SimpleIntegerProperty(count);
+	}
+
+	public void setCapacity(int capacity){
+		this.capacity = new SimpleIntegerProperty(capacity);
+	}
+
+	public void setVenue(String venue){
+		this.venue = new SimpleStringProperty(venue);
+	}
+
+	public void setDate(String date){
+		this.date = new SimpleStringProperty(date);
+	}
+
 	//This method generates Auto event ID
 	public void generateId() {
 		String s1 = "EVE";
@@ -87,16 +118,16 @@ public class Event extends Post {
 	}
 	
 	public boolean handleReply(Reply reply) {
-		if((this.capacity-this.attCount) > 0) {
+		if((getCapacity()-getAttCount()) > 0) {
 			for(int i=0; i<super.getReplies().size();i++) {	
 				if(super.getReplies().get(i).getRespId().equals(reply.getRespId())) {
 					System.out.println("You are already registered\n");
 					return false;
 				}
 			}
-			this.attCount++;
+			setAttCount(getAttCount()+1);
 			super.getReplies().add(reply);
-			if((this.capacity-this.attCount) == 0) {
+			if((getCapacity()-getAttCount()) == 0) {
 				super.setStatus("CLOSED");
 			}
 			System.out.println("Event Registration Accepted\n");
@@ -110,7 +141,7 @@ public class Event extends Post {
 	
 	public String getReplyDetails() {
 		String s1 = getPostDetails();
-		if(this.attCount == 0) {
+		if(getAttCount() == 0) {
 			String s3 = "\nAttendee list: Empty";
 			String s = s1+s3;
 			return s;
@@ -138,9 +169,6 @@ public class Event extends Post {
 	}
 	
 	public boolean responseChecker(String resp) {
-		if(resp.equals("1")) {
-			return true;
-		}
-		return false;
+		return resp.equals("1");
 	}
 }

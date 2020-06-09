@@ -1,31 +1,34 @@
 package model;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Sale extends Post{
-	private double askPrice;
-	private double highOffer;
-	private double minRaise;
+	private SimpleDoubleProperty askPrice;
+	private SimpleDoubleProperty highOffer;
+	private SimpleDoubleProperty minRaise;
 	private String saleId;
 	private static int saleNumId = 0;
 	
 	//Constructor that calls constructor of Post class first
-	public Sale(String title, String desc, double askPrice, double minRaise) {
-		super(title,desc);
-		this.askPrice = askPrice;
-		this.minRaise = minRaise;
-		this.highOffer = 0;
+	public Sale(String title, String desc, double askPrice, double minRaise, String creatorID) throws FileNotFoundException {
+		super(title,desc,creatorID);
+		this.askPrice = new SimpleDoubleProperty(askPrice) ;
+		this.minRaise = new SimpleDoubleProperty(minRaise);
+		this.highOffer = new SimpleDoubleProperty(0);
 		setSaleNumId(++saleNumId);
 		generateSaleId();
 		super.setPostId(getSaleId());
 	}
 
-	public Sale(String title, String desc, double askPrice, double minRaise, Image image) {
-		super(title,desc,image);
-		this.askPrice = askPrice;
-		this.minRaise = minRaise;
-		this.highOffer = 0;
+	public Sale(String title, String desc, double askPrice, double minRaise, Image image, String creatorID) {
+		super(title,desc,image,creatorID);
+		this.askPrice = new SimpleDoubleProperty(askPrice) ;
+		this.minRaise = new SimpleDoubleProperty(minRaise);
+		this.highOffer = new SimpleDoubleProperty(0);
 		setSaleNumId(++saleNumId);
 		generateSaleId();
 		super.setPostId(getSaleId());
@@ -39,7 +42,19 @@ public class Sale extends Post{
 	public String getSaleId() {
 		return saleId;
 	}
-	
+
+	public double getAskPrice(){
+		return askPrice.get();
+	}
+
+	public double getMinRaise(){
+		return minRaise.get();
+	}
+
+	public double getHighOffer(){
+		return highOffer.get();
+	}
+
 	//2 setter methods
 	public void setSaleNumId(int num) {
 		saleNumId = num;
@@ -48,7 +63,19 @@ public class Sale extends Post{
 	public void setSaleId(String saleId) {
 		this.saleId = saleId;
 	}
-	
+
+	public void setAskPrice(double askPrice){
+		this.askPrice = new SimpleDoubleProperty(askPrice);
+	}
+
+	public void setMinRaise(double minRaise){
+		this.askPrice = new SimpleDoubleProperty(minRaise);
+	}
+
+	public void setHighOffer(double highOffer){
+		this.askPrice = new SimpleDoubleProperty(highOffer);
+	}
+
 	//This method generates Auto Sale ID
 	public void generateSaleId() {
 		String s1 = "SAL";
@@ -62,7 +89,7 @@ public class Sale extends Post{
 		StringBuilder str = new StringBuilder("ID:            " +this.saleId + "\n");
 		String s1 = super.getPostDetails();
 		StringBuilder str1 = new StringBuilder("Minimum raise: " +this.minRaise+ "\n");
-		if(this.highOffer == 0.0) {
+		if(getHighOffer() == 0.0) {
 			StringBuilder str2 = new StringBuilder("Highest Offer: NO OFFER" + "\n");
 		}
 		else {
@@ -83,20 +110,20 @@ public class Sale extends Post{
 		}
 	
 	public boolean handleReply(Reply reply) {
-		if(reply.getValue() < (this.highOffer+this.minRaise)) {
+		if(reply.getValue() < (getHighOffer()+getMinRaise())) {
 			System.out.println("Offer not accepted!\n");
 			return false;
 		}
-		else if(reply.getValue() >= this.askPrice) {
+		else if(reply.getValue() >= getAskPrice()) {
 			//System.out.println("Congratulations! The "+ super.getTitle() + " has been sold to you.\n" + "Please contact the owner " + super.getStudId()+" for more details.\n");
 			super.getReplies().add(reply);
-			this.highOffer = reply.getValue();
+			setHighOffer(reply.getValue());
 			super.setStatus("CLOSED");
 			return true;
 		}
 		System.out.println("Your offer has been submitted!\n"+"However, your offer is below the asking price.\n" +"The item is still on sale\n");
 		super.getReplies().add(reply);
-		this.highOffer = reply.getValue();
+		setHighOffer(reply.getValue());
 		return true;
 	}
 	

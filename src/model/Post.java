@@ -1,38 +1,40 @@
 package model;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
 
 import java.util.*;
 
 public abstract class Post {
-	private String postId;
-	private String title;
-	private String desc;
-	//private String studId;
-	private String status;
+	private SimpleStringProperty postId;
+	private SimpleStringProperty title;
+	private SimpleStringProperty description;
+	private SimpleStringProperty status;
 	private ArrayList<Reply> replies;
 	private Image photo;
+	private SimpleStringProperty creatorID;
 	
 	//Constructor
-	public Post(String title, String desc) {
-		this.title = title;
-		this.desc = desc;
-		//this.studId = studId;
-		this.status = "OPEN";
+	public Post(String title, String description, String creatorID) {
+		this.title = new SimpleStringProperty(title);
+		this.description = new SimpleStringProperty(description);
+		this.creatorID = new SimpleStringProperty(creatorID);
+		this.status = new SimpleStringProperty("OPEN");
 		this.replies= new ArrayList<Reply>();
-		this.photo = new Image("file:images/No_image_available.svg");
+		this.photo = new Image("file:images/No_image.png");
 	}
 
-	public Post(String title, String desc, Image photo){
-		this.title = title;
-		this.desc = desc;
-		this.status = "OPEN";
+	public Post(String title, String desc, Image photo, String creatorID){
+		this.title = new SimpleStringProperty(title);
+		this.description = new SimpleStringProperty(desc);
+		this.creatorID = new SimpleStringProperty(creatorID);
+		this.status = new SimpleStringProperty("OPEN");
 		this.replies=new ArrayList<>();
 		this.photo = photo;
 	}
 	
 	//5 getter methods
 	public String getPostId() {
-		return postId;
+		return postId.get();
 	}
 	
 	public ArrayList<Reply> getReplies() {
@@ -40,20 +42,28 @@ public abstract class Post {
 	}
 	
 	public String getTitle() {
-		return title;
+		return title.get();
 	}
 	
 	public String getStatus() {
-		return status;
+		return status.get();
 	}
 
 	public Image getPhoto() {
 		return photo;
 	}
+
+	public String getDescription() {
+		return description.get();
+	}
+
+	public String getCreatorID(){
+		return creatorID.get();
+	}
 	
-	//3 setter methods
+	//5 setter methods
 	public void setPostId(String postId) {
-		this.postId = postId;
+		this.postId = new SimpleStringProperty(postId);
 	}
 	
 	public void setReplies(Reply reply) {
@@ -61,16 +71,28 @@ public abstract class Post {
 	}
 	
 	public void setStatus(String s) {
-		this.status = s;
+		this.status = new SimpleStringProperty(s);
 	}
 
-	public void setImage(Image photo){
+	public void setPhoto(Image photo){
 		this.photo = photo;
 	}
-	
+
+	public void setTitle(String name) {
+		this.title = new SimpleStringProperty(name);
+	}
+
+	public void setCreatorID(String creatorID){
+		this.creatorID = new SimpleStringProperty(creatorID);
+	}
+
+	public void setDescription(String description){
+		this.description = new SimpleStringProperty(description);
+	}
+
 	public String getPostDetails() { 
 		StringBuilder str1 = new StringBuilder("Title:         " +this.title + "\n");
-		StringBuilder str2 = new StringBuilder("Description:   " +this.desc + "\n");
+		StringBuilder str2 = new StringBuilder("Description:   " +this.description + "\n");
 		StringBuilder str3 = new StringBuilder("Status:        " +this.status + "\n");
 		return str1.append(str2).append(str3).toString();
 	}

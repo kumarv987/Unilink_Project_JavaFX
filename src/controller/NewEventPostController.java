@@ -1,7 +1,6 @@
 package controller;
 
-import com.sun.tools.javac.Main;
-import exceptions.FormNotFilledException;
+import model.exceptions.FormNotFilledException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,8 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Event;
-import model.User;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -43,7 +40,7 @@ public class NewEventPostController implements Initializable {
     @FXML private Button saveButton;
     @FXML private Button backButton;
     @FXML private Label exceptionLabel;
-    @FXML private ImageView photo;
+    @FXML private ImageView photoImageView;
 
     /*******************************************************************************************************************
      * This method uploads the image once upload button is pushed
@@ -57,6 +54,7 @@ public class NewEventPostController implements Initializable {
         this.filePath = fileChooser.showOpenDialog(stage);
         try{
             BufferedImage bufferedImage = ImageIO.read(filePath);
+            System.out.println(bufferedImage);
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             this.uploadImage = image;
         }catch(IOException e){
@@ -82,15 +80,18 @@ public class NewEventPostController implements Initializable {
                                         , venueTextField.getText()
                                         , dateTextField.getText()
                                         , Integer.parseInt(capacityTextField.getText())
-                                        , this.uploadImage));
+                                        , this.uploadImage
+                                        , MainPageController.currentUserName));
                     }
                     else {
+                        System.out.println("NOOOOOOO");
                         MainPageController.listOfUsers.get(i).
                                 addPostToUserPosts(new Event(nameTextField.getText()
                                         , descriptionTextArea.getText()
                                         , venueTextField.getText()
                                         , dateTextField.getText()
-                                        , Integer.parseInt(capacityTextField.getText())));
+                                        , Integer.parseInt(capacityTextField.getText())
+                                        , MainPageController.currentUserName));
                     }
                     //Now disable the save button once the the info is saved
                     this.saveButton.setDisable(true);

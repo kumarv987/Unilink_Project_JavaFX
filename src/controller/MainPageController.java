@@ -1,14 +1,22 @@
 package controller;
 
+import com.sun.tools.javac.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import model.Event;
+import model.Post;
 import model.User;
 import java.io.IOException;
 import java.net.URL;
@@ -21,10 +29,24 @@ public class MainPageController implements Initializable {
     public static String currentUserName;
 
     //Variables for FXML file
+    @FXML private Button moreDetailsButton;
+    @FXML private Button replyButton;
     @FXML private Button newEventPostButton;
     @FXML private Button newSalePostButton;
     @FXML private Button newJobPostButton;
     @FXML private Button logOutButton;
+    @FXML private Label currentUserLabel;
+    @FXML private Label postSpecificLabel;
+    @FXML private TableView<Post> tableView;
+    @FXML private TableColumn<Post,String> postIDColumn;
+    @FXML private TableColumn<Post,String> titleColumn;
+    @FXML private TableColumn<Post,String> descriptionColumn;
+    @FXML private TableColumn<Post,String> statusColumn;
+    @FXML private TableColumn<Post,String> creatorIDColumn;
+    @FXML private ImageView postImage;
+    @FXML private TableColumn<Post, Image> imageColumn;
+
+
 
     /*******************************************************************************************************************
      * This method Creates a new event post.
@@ -86,8 +108,50 @@ public class MainPageController implements Initializable {
         window.show();
     }
 
+    /*******************************************************************************************************************
+     * This method checks the users who created the posts and returns their position.
+     ******************************************************************************************************************/
+    public ArrayList<Integer> usersWhoCreatedPosts(){
+        ArrayList<Integer> userIndex = new ArrayList<>();
+        for(int i=0; i<MainPageController.listOfUsers.size(); i++){
+            if(!(MainPageController.listOfUsers.get(i).getUserPosts().isEmpty())){
+                userIndex.add(i);
+            }
+        }
+        return userIndex;
+    }
+
+    /*******************************************************************************************************************
+     * This method will return an observable list of post objects.
+     ******************************************************************************************************************/
+    public ObservableList<Post> getPosts(){
+        //Check the total number of posts
+        ArrayList<Integer> indexOfUsersWithPosts = usersWhoCreatedPosts();
+        ObservableList<Post> posts = FXCollections.observableArrayList();
+
+        for(int i=0; i<indexOfUsersWithPosts.size(); i++){
+            ArrayList<Post> p = MainPageController.listOfUsers.get(indexOfUsersWithPosts.get(i)).getUserPosts();
+            for(int j=0; j<p.size(); j++){
+                posts.add(p.get(j));
+            }
+        }
+        return posts;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Updating the current user ID on the screen
+        this.currentUserLabel.setText(MainPageController.currentUserName);
 
+        //Set up the columns in the table view
+        postIDColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("postId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("description"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("status"));
+        creatorIDColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("creatorID"));
+        imageColumn.setCellValueFactory(new PropertyValueFactory<Post,Image>("photo"));
+
+        //Load the data in table View
+        tableView.setItems(getPosts());
     }
 }

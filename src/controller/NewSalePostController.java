@@ -1,7 +1,6 @@
 package controller;
 
-import com.sun.tools.javac.Main;
-import exceptions.FormNotFilledException;
+import model.exceptions.FormNotFilledException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -78,14 +77,16 @@ public class NewSalePostController implements Initializable{
                                         , descriptionTextArea.getText()
                                         , Double.parseDouble(askPriceTextField.getText())
                                         , Double.parseDouble(minRaiseTextField.getText())
-                                        , this.uploadImage));
+                                        , this.uploadImage
+                                        , MainPageController.currentUserName));
                     }
                     else{
                         MainPageController.listOfUsers.get(i).
                                 addPostToUserPosts(new Sale(nameTextField.getText()
                                         , descriptionTextArea.getText()
                                         , Double.parseDouble(askPriceTextField.getText())
-                                        , Double.parseDouble(minRaiseTextField.getText())));
+                                        , Double.parseDouble(minRaiseTextField.getText())
+                                        , MainPageController.currentUserName));
                     }
                     //Now disable the save button
                     this.saveButton.setDisable(true);

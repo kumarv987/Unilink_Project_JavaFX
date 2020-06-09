@@ -1,4 +1,4 @@
-package exceptions;
+package model.exceptions;
 
 public class FormNotFilledException extends Exception{
     public FormNotFilledException(String message){

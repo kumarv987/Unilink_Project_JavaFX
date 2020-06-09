@@ -1,19 +1,21 @@
 package model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.ArrayList;
 
 public class User {
-    private String userName;
+    private SimpleStringProperty userName;
     private ArrayList<Post> userPosts = new ArrayList<>();
 
     //Constructor
     public User(String userName){
-        this.userName = userName;
+        this.userName = new SimpleStringProperty(userName);
     }
 
     //Getter Method for userName
     public String getUserName() {
-        return userName;
+        return userName.get();
     }
 
     //Getter and setter for userPosts
