@@ -79,25 +79,27 @@
       </AnchorPane>
       <AnchorPane layoutY="109.0" prefHeight="451.0" prefWidth="900.0">
          <children>
-            <TableView fx:id="tableView" layoutX="8.0" prefHeight="384.0" prefWidth="697.0">
+            <TableView fx:id="tableView" layoutX="8.0" onKeyPressed="#getSelectedPostDetailsWithKeyboard" onMouseClicked="#getSelectedPostDetailsWithMouse" prefHeight="384.0" prefWidth="605.0">
               <columns>
-                <TableColumn fx:id="postIDColumn" prefWidth="68.0" text="Post ID" />
-                <TableColumn fx:id="titleColumn" prefWidth="132.0" text="Title" />
-                  <TableColumn fx:id="descriptionColumn" prefWidth="242.0" text="Description" />
-                  <TableColumn fx:id="statusColumn" prefWidth="74.0" text="Status" />
-                  <TableColumn fx:id="creatorIDColumn" prefWidth="84.0" text="Creator ID" />
-                  <TableColumn fx:id="imageColumn" prefWidth="96.0" text="Image" />
+                <TableColumn fx:id="postIDColumn" prefWidth="51.0" text="Post ID" />
+                <TableColumn fx:id="titleColumn" prefWidth="146.0" text="Title" />
+                  <TableColumn fx:id="descriptionColumn" prefWidth="268.0" text="Description" />
+                  <TableColumn fx:id="statusColumn" prefWidth="68.0" text="Status" />
+                  <TableColumn fx:id="creatorIDColumn" prefWidth="73.0" text="Creator ID" />
               </columns>
             </TableView>
-            <ImageView fx:id="postImage" fitHeight="68.0" fitWidth="105.0" layoutX="747.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="postSpecificLabel" alignment="TOP_LEFT" layoutX="716.0" layoutY="117.0" prefHeight="135.0" prefWidth="166.0" text="Label" />
-            <Label layoutX="767.0" layoutY="15.0" text="Post Image">
+            <ImageView fx:id="postImage" fitHeight="68.0" fitWidth="105.0" layoutX="704.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="postSpecificLabel" alignment="TOP_LEFT" layoutX="626.0" layoutY="97.0" onKeyPressed="#getSelectedPostDetailsWithKeyboard" onMouseClicked="#getSelectedPostDetailsWithMouse" prefHeight="287.0" prefWidth="259.0" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label layoutX="724.0" layoutY="6.0" text="Post Image">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="moreDetailsButton" layoutX="165.0" layoutY="396.0" mnemonicParsing="false" text="More Details" />
-            <Button fx:id="replyButton" layoutX="369.0" layoutY="396.0" mnemonicParsing="false" text="Reply" />
+            <Button fx:id="moreDetailsButton" layoutX="233.0" layoutY="396.0" mnemonicParsing="false" onAction="#moreDetailsButtonPushed" text="More Details" />
+            <Button fx:id="replyButton" layoutX="450.0" layoutY="396.0" mnemonicParsing="false" text="Reply" />
          </children>
       </AnchorPane>
    </children>

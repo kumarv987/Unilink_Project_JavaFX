@@ -76,19 +76,18 @@ public class Job extends Post{
 	
 	//This method overrides the Post class method
 	public String getPostDetails() {
-		StringBuilder str = new StringBuilder("ID:             " +this.jobId + "\n");
 		String s1 = super.getPostDetails();
-		StringBuilder str1 = new StringBuilder("Proposed price: " +this.propPrice+ "\n");
-		StringBuilder str2 = new StringBuilder("Lowest Offer:   " +this.lowOffer+ "\n");
-		String s = str.toString()+s1+str1.append(str2).toString();
+		StringBuilder str1 = new StringBuilder("Proposed price: " +getPropPrice()+ "\n\n");
+		StringBuilder str2 = new StringBuilder("Lowest Offer:   " +getLowOffer()+ "\n\n");
+		String s = s1+str1.append(str2).toString();
 		return s;
 	}
 	
 	//This method overrides the Post class method
 	public String getPostDetails(String newVal) {
-		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
-		StringBuilder str2 = new StringBuilder("Proposed price: $" + this.propPrice+ "\n");
-		StringBuilder str3 = new StringBuilder("Lowest offer: $"+ this.lowOffer + "\n");
+		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n\n");
+		StringBuilder str2 = new StringBuilder("Proposed price: $" + getPropPrice()+ "\n\n");
+		StringBuilder str3 = new StringBuilder("Lowest offer: $"+ getLowOffer() + "\n\n");
 		String s = str1.append(str2).append(str3).toString();
 		return s;
 	}

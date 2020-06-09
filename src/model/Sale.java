@@ -86,25 +86,24 @@ public class Sale extends Post{
 	
 	//This method overrides the Post class method
 	public String getPostDetails() {
-		StringBuilder str = new StringBuilder("ID:            " +this.saleId + "\n");
 		String s1 = super.getPostDetails();
-		StringBuilder str1 = new StringBuilder("Minimum raise: " +this.minRaise+ "\n");
+		StringBuilder str1 = new StringBuilder("Minimum raise: " +getMinRaise()+ "\n\n");
 		if(getHighOffer() == 0.0) {
-			StringBuilder str2 = new StringBuilder("Highest Offer: NO OFFER" + "\n");
+			StringBuilder str2 = new StringBuilder("Highest Offer: NO OFFER" + "\n\n");
 		}
 		else {
-			StringBuilder str2 = new StringBuilder("Highest Offer: " +this.highOffer+ "\n");
+			StringBuilder str2 = new StringBuilder("Highest Offer: " +getHighOffer()+ "\n\n");
 		}
-		StringBuilder str2 = new StringBuilder("Highest Offer: " +this.highOffer+ "\n");
-		String s = str.toString()+s1+str1.append(str2).toString();
+		StringBuilder str2 = new StringBuilder("Highest Offer: " +getHighOffer()+ "\n\n");
+		String s = s1+str1.append(str2).toString();
 		return s;
 	}
 	
 	//This method overrides the Post class method
 		public String getPostDetails(String newVal) {
-			StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
-			StringBuilder str2 = new StringBuilder("Highest offer: $" + this.highOffer + "\n");
-			StringBuilder str3 = new StringBuilder("Minimum raise: $"+ this.minRaise + "\n");
+			StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n\n");
+			StringBuilder str2 = new StringBuilder("Highest offer: $" + getHighOffer() + "\n\n");
+			StringBuilder str3 = new StringBuilder("Minimum raise: $"+ getMinRaise() + "\n\n");
 			String s = str1.append(str2).append(str3).toString();
 			return s;
 		}

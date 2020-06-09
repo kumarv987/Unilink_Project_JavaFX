@@ -91,10 +91,10 @@ public abstract class Post {
 	}
 
 	public String getPostDetails() { 
-		StringBuilder str1 = new StringBuilder("Title:         " +this.title + "\n");
-		StringBuilder str2 = new StringBuilder("Description:   " +this.description + "\n");
-		StringBuilder str3 = new StringBuilder("Status:        " +this.status + "\n");
-		return str1.append(str2).append(str3).toString();
+		StringBuilder str1 = new StringBuilder("Title:         " +getTitle() + "\n\n");
+		StringBuilder str2 = new StringBuilder("Description:   " +getDescription() + "\n\n");
+		//StringBuilder str3 = new StringBuilder("Status:        " +getStatus() + "\n\n");
+		return str1.append(str2).toString();
 	}
 	
 	//This is a dummy method so that it can be overridden by subclass method

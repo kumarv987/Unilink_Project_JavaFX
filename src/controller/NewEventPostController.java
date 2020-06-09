@@ -84,7 +84,6 @@ public class NewEventPostController implements Initializable {
                                         , MainPageController.currentUserName));
                     }
                     else {
-                        System.out.println("NOOOOOOO");
                         MainPageController.listOfUsers.get(i).
                                 addPostToUserPosts(new Event(nameTextField.getText()
                                         , descriptionTextArea.getText()

@@ -13,14 +13,18 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import model.Event;
 import model.Post;
 import model.User;
+import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
@@ -44,8 +48,7 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn<Post,String> statusColumn;
     @FXML private TableColumn<Post,String> creatorIDColumn;
     @FXML private ImageView postImage;
-    @FXML private TableColumn<Post, Image> imageColumn;
-
+    //@FXML private TableColumn<Post, Image> imageColumn;
 
 
     /*******************************************************************************************************************
@@ -109,6 +112,21 @@ public class MainPageController implements Initializable {
     }
 
     /*******************************************************************************************************************
+     * This method takes the user to the Post detail window and shows more details of the post they created.
+     ******************************************************************************************************************/
+    public void moreDetailsButtonPushed(ActionEvent event) throws IOException {
+        //Now loading the new stage
+        Parent parent = FXMLLoader.load(getClass().getResource("/view/PostDetail.fxml"));
+        Scene scene = new Scene(parent);
+
+        //This line get the stage information
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setTitle("Post Window");
+        window.setScene(scene);
+        window.show();
+    }
+
+    /*******************************************************************************************************************
      * This method checks the users who created the posts and returns their position.
      ******************************************************************************************************************/
     public ArrayList<Integer> usersWhoCreatedPosts(){
@@ -119,6 +137,54 @@ public class MainPageController implements Initializable {
             }
         }
         return userIndex;
+    }
+
+    /*******************************************************************************************************************
+     * This method displays the additional details of the post that is selected from the tableView.
+     ******************************************************************************************************************/
+    public void getSelectedPostDetailsWithKeyboard(KeyEvent keyEvent) {
+        if (!tableView.getSelectionModel().isEmpty()) {
+            if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
+                postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
+                postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+            } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'S') {
+                postSpecificLabel.setStyle("-fx-background-color:   #F4A460;");
+                postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+            } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'J') {
+                postSpecificLabel.setStyle("-fx-background-color:   Add8E6;");
+                postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+            }
+            if (tableView.getSelectionModel().getSelectedItem().getCreatorID().equalsIgnoreCase(MainPageController.currentUserName)) {
+                moreDetailsButton.setDisable(false);
+            } else{
+                moreDetailsButton.setDisable(true);
+            }
+        }
+        return;
+    }
+
+    /*******************************************************************************************************************
+     * This method displays the additional details of the post that is selected from the tableView.
+     ******************************************************************************************************************/
+    public void getSelectedPostDetailsWithMouse(MouseEvent mouseEvent) {
+        if (!tableView.getSelectionModel().isEmpty()) {
+            if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
+                postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
+                postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+            } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'S') {
+                postSpecificLabel.setStyle("-fx-background-color:   #F4A460;");
+                postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+            } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'J') {
+                postSpecificLabel.setStyle("-fx-background-color:   Add8E6;");
+                postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+            }
+            if (tableView.getSelectionModel().getSelectedItem().getCreatorID().equalsIgnoreCase(MainPageController.currentUserName)) {
+                moreDetailsButton.setDisable(false);
+            } else{
+                moreDetailsButton.setDisable(true);
+            }
+        }
+        return;
     }
 
     /*******************************************************************************************************************
@@ -138,8 +204,14 @@ public class MainPageController implements Initializable {
         return posts;
     }
 
+    /*******************************************************************************************************************
+     * This is an initializer.
+     ******************************************************************************************************************/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        moreDetailsButton.setDisable(true);
+        replyButton.setDisable(true);
+
         //Updating the current user ID on the screen
         this.currentUserLabel.setText(MainPageController.currentUserName);
 
@@ -149,9 +221,13 @@ public class MainPageController implements Initializable {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("description"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("status"));
         creatorIDColumn.setCellValueFactory(new PropertyValueFactory<Post,String>("creatorID"));
-        imageColumn.setCellValueFactory(new PropertyValueFactory<Post,Image>("photo"));
+        //imageColumn.setCellValueFactory(new PropertyValueFactory<Post,Image>("photo"));
 
         //Load the data in table View
         tableView.setItems(getPosts());
+
+        if(tableView.getSelectionModel().getSelectedItem() != null){
+            System.out.println("Item is selected");
+        }
     }
 }

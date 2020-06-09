@@ -98,20 +98,19 @@ public class Event extends Post {
 	
 	//This method overrides the Post class method
 	public String getPostDetails() {
-		StringBuilder str = new StringBuilder("ID:            " +this.eventId + "\n");
 		String s1 = super.getPostDetails();
-		StringBuilder str1 = new StringBuilder("Venue:         " +this.venue + "\n");
-		StringBuilder str2 = new StringBuilder("Date:          " +this.date + "\n");
-		StringBuilder str3 = new StringBuilder("Capacity:      " +this.capacity + "\n");
-		StringBuilder str4 = new StringBuilder("Attendees:     " +this.attCount + "\n");
-		String s = str.toString()+s1+str1.append(str2).append(str3).append(str4).toString();
+		StringBuilder str1 = new StringBuilder("Venue:         " +getVenue() + "\n\n");
+		StringBuilder str2 = new StringBuilder("Date:          " +getDate() + "\n\n");
+		StringBuilder str3 = new StringBuilder("Capacity:      " +getCapacity() + "\n\n");
+		StringBuilder str4 = new StringBuilder("Attendees:     " +getAttCount() + "\n\n");
+		String s = s1+str1.append(str2).append(str3).append(str4).toString();
 		return s;
 	}
 	
 	//This method overrides the Post class method
 	public String getPostDetails(String newVal) {
 		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
-		StringBuilder str2 = new StringBuilder("Venue: " + this.venue + "\n");
+		StringBuilder str2 = new StringBuilder("Venue: " + getVenue() + "\n");
 		StringBuilder str3 = new StringBuilder("Status: "+ super.getStatus() + "\n");
 		String s = str1.append(str2).append(str3).toString();
 		return s;

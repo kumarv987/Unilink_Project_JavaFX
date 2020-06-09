@@ -92,6 +92,5 @@
       <Label fx:id="exceptionLabel" layoutX="251.0" layoutY="340.0" prefHeight="45.0" prefWidth="432.0" />
       <Button fx:id="backButton" layoutX="566.0" layoutY="461.0" mnemonicParsing="false" onAction="#backButtonPushed" text="Back To Main Page" />
       <Label fx:id="exceptionLabel" layoutX="336.0" layoutY="340.0" prefHeight="17.0" prefWidth="191.0" />
-      <ImageView fx:id="photoImageView" fitHeight="150.0" fitWidth="200.0" layoutX="170.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
