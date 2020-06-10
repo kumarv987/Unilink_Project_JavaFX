@@ -69,11 +69,11 @@ public class Sale extends Post{
 	}
 
 	public void setMinRaise(double minRaise){
-		this.askPrice = new SimpleDoubleProperty(minRaise);
+		this.minRaise = new SimpleDoubleProperty(minRaise);
 	}
 
 	public void setHighOffer(double highOffer){
-		this.askPrice = new SimpleDoubleProperty(highOffer);
+		this.highOffer = new SimpleDoubleProperty(highOffer);
 	}
 
 	//This method generates Auto Sale ID
@@ -88,12 +88,6 @@ public class Sale extends Post{
 	public String getPostDetails() {
 		String s1 = super.getPostDetails();
 		StringBuilder str1 = new StringBuilder("Minimum raise: " +getMinRaise()+ "\n\n");
-		if(getHighOffer() == 0.0) {
-			StringBuilder str2 = new StringBuilder("Highest Offer: NO OFFER" + "\n\n");
-		}
-		else {
-			StringBuilder str2 = new StringBuilder("Highest Offer: " +getHighOffer()+ "\n\n");
-		}
 		StringBuilder str2 = new StringBuilder("Highest Offer: " +getHighOffer()+ "\n\n");
 		String s = s1+str1.append(str2).toString();
 		return s;
@@ -108,22 +102,25 @@ public class Sale extends Post{
 			return s;
 		}
 	
-	public boolean handleReply(Reply reply) {
+	public int handleReply(Reply reply) {
+		System.out.println(reply.getValue());
 		if(reply.getValue() < (getHighOffer()+getMinRaise())) {
-			System.out.println("Offer not accepted!\n");
-			return false;
+			//System.out.println("Offer not accepted!\n");
+			return 0;
 		}
 		else if(reply.getValue() >= getAskPrice()) {
 			//System.out.println("Congratulations! The "+ super.getTitle() + " has been sold to you.\n" + "Please contact the owner " + super.getStudId()+" for more details.\n");
 			super.getReplies().add(reply);
 			setHighOffer(reply.getValue());
+			System.out.println(getHighOffer());
 			super.setStatus("CLOSED");
-			return true;
+			return 1;
 		}
-		System.out.println("Your offer has been submitted!\n"+"However, your offer is below the asking price.\n" +"The item is still on sale\n");
+		//System.out.println("Your offer has been submitted!\n"+"However, your offer is below the asking price.\n" +"The item is still on sale\n");
 		super.getReplies().add(reply);
 		setHighOffer(reply.getValue());
-		return true;
+		System.out.println(getHighOffer());
+		return 2;
 	}
 	
 	public String getReplyDetails() {

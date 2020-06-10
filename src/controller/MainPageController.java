@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import model.Event;
 import model.Post;
+import model.Reply;
 import model.User;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
@@ -31,16 +32,20 @@ public class MainPageController implements Initializable {
     //Variables for accessing model package info
     public static final ArrayList<User> listOfUsers = new ArrayList<>();
     public static String currentUserName;
+    public static String postIdForReply;
 
     //Variables for FXML file
+    @FXML private Button joinEventButton;
     @FXML private Button moreDetailsButton;
     @FXML private Button replyButton;
     @FXML private Button newEventPostButton;
     @FXML private Button newSalePostButton;
     @FXML private Button newJobPostButton;
     @FXML private Button logOutButton;
+    @FXML private Label replyStatusLabel;
     @FXML private Label currentUserLabel;
     @FXML private Label postSpecificLabel;
+    @FXML private TextField offerValueTextField;
     @FXML private TableView<Post> tableView;
     @FXML private TableColumn<Post,String> postIDColumn;
     @FXML private TableColumn<Post,String> titleColumn;
@@ -127,7 +132,96 @@ public class MainPageController implements Initializable {
     }
 
     /*******************************************************************************************************************
-     * This method checks the users who created the posts and returns their position.
+     * This method takes the user to the Post detail window and shows more details of the post they created.
+     ******************************************************************************************************************/
+    public void refreshMainPage(ActionEvent event) throws IOException{
+        //Now loading the new stage
+        Parent parent = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
+        Scene scene = new Scene(parent);
+
+        //This line get the stage information
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setTitle("Main Window");
+        window.setScene(scene);
+        window.show();
+    }
+
+    /*******************************************************************************************************************
+     * This method allows the user able to Reply to Sale or Job Post.
+     ******************************************************************************************************************/
+    public void replyButtonPushed(ActionEvent event) throws IOException{
+        if(offerValueTextField.getText().equalsIgnoreCase("")){
+            replyStatusLabel.setText("You must enter offer value first!!");
+        }else{
+            Reply reply = new Reply(MainPageController.postIdForReply,Double.parseDouble(offerValueTextField.getText()),MainPageController.currentUserName);
+            for(int i=0; i<MainPageController.listOfUsers.size(); i++) {
+                for (int j = 0; j < MainPageController.listOfUsers.get(i).getUserPosts().size(); j++) {
+                    String tempPostID = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
+                    Post tempPost = MainPageController.listOfUsers.get(i).getUserPosts().get(j);
+                    if(tempPostID.equalsIgnoreCase(MainPageController.postIdForReply)) {
+                        if (MainPageController.postIdForReply.charAt(0) == 'J') {
+                            int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
+                            if(replyAddedOrNot == 0){
+                                replyStatusLabel.setText("Offer not accepted!");
+                            }else if(replyAddedOrNot == 1){
+                                replyStatusLabel.setText("Offer accepted!");
+                            }else {
+                                replyStatusLabel.setText("Something went wrong!!");
+                            }
+                        } else {
+                            int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
+                            if(replyAddedOrNot == 0){
+                                replyStatusLabel.setText("Offer not accepted!");
+                            }else if(replyAddedOrNot == 1){
+                                StringBuilder str1 = new StringBuilder("Congratulations! The ");
+                                StringBuilder str2 = new StringBuilder(tempPost.getTitle());
+                                StringBuilder str3 = new StringBuilder(" has been sold to you.\n");
+                                StringBuilder str4 = new StringBuilder("Please contact the owner ");
+                                StringBuilder str5 = new StringBuilder(tempPost.getCreatorID());
+                                StringBuilder str6 = new StringBuilder(" for more details.\n");
+                                String s = str1.append(str2).append(str3).append(str4).append(str5).append(str6).toString();
+                                replyStatusLabel.setText(s);
+                            }else if(replyAddedOrNot == 2){
+                                replyStatusLabel.setText("Your offer has been submitted! \n" +
+                                        "However, your offer is below the asking price. " +
+                                        "\nThe item is still on sale");
+                            }else{
+                                replyStatusLabel.setStyle("-fx-background-color:   #F4A460;");
+                                replyStatusLabel.setText("Something Went Wrong!!");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*******************************************************************************************************************
+     * This method allows the user able to attend the Event or not.
+     ******************************************************************************************************************/
+    public void joinEventButtonPushed(ActionEvent event) throws IOException{
+        Reply reply = new Reply(MainPageController.postIdForReply,1,MainPageController.currentUserName);
+        for(int i=0; i<MainPageController.listOfUsers.size(); i++){
+            for(int j=0; j<MainPageController.listOfUsers.get(i).getUserPosts().size(); j++){
+                String tempPostID = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
+                if(tempPostID.equalsIgnoreCase(MainPageController.postIdForReply)){
+                    int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
+                    if(replyAddedOrNot == -1){
+                        replyStatusLabel.setText("You are Already Registered");
+                    }else if(replyAddedOrNot == 0){
+                        replyStatusLabel.setText("Event capacity is full");
+                    }else if(replyAddedOrNot == 1){
+                        replyStatusLabel.setText("Event Registration Accepted");
+                    }else{
+                        replyStatusLabel.setText("Something Went Wrong!!");
+                    }
+                }
+            }
+        }
+    }
+
+    /*******************************************************************************************************************
+     * This method checks the users who created the posts and returns their index position stored in an ArrayList.
      ******************************************************************************************************************/
     public ArrayList<Integer> usersWhoCreatedPosts(){
         ArrayList<Integer> userIndex = new ArrayList<>();
@@ -143,18 +237,47 @@ public class MainPageController implements Initializable {
      * This method displays the additional details of the post that is selected from the tableView.
      ******************************************************************************************************************/
     public void getSelectedPostDetailsWithKeyboard(KeyEvent keyEvent) {
+        replyStatusLabel.setText("");
+        String creatorID = tableView.getSelectionModel().getSelectedItem().getCreatorID();
         if (!tableView.getSelectionModel().isEmpty()) {
+            MainPageController.postIdForReply = tableView.getSelectionModel().getSelectedItem().getPostId();
             if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
                 postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+                if((!(creatorID.equalsIgnoreCase(MainPageController.currentUserName))) &&
+                        (tableView.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("OPEN"))){
+                    joinEventButton.setDisable(false);
+                }else {
+                    joinEventButton.setDisable(true);
+                }
+                replyButton.setDisable(true);
+                offerValueTextField.setDisable(true);
             } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'S') {
                 postSpecificLabel.setStyle("-fx-background-color:   #F4A460;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+                if(!(creatorID.equalsIgnoreCase(MainPageController.currentUserName)) &&
+                        (tableView.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("OPEN"))){
+                    replyButton.setDisable(false);
+                    offerValueTextField.setDisable(false);
+                }else {
+                    replyButton.setDisable(true);
+                    offerValueTextField.setDisable(true);
+                }
+                joinEventButton.setDisable(true);
             } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'J') {
                 postSpecificLabel.setStyle("-fx-background-color:   Add8E6;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+                if(!(creatorID.equalsIgnoreCase(MainPageController.currentUserName)) &&
+                        (tableView.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("OPEN"))){
+                    replyButton.setDisable(false);
+                    offerValueTextField.setDisable(false);
+                } else {
+                    replyButton.setDisable(true);
+                    offerValueTextField.setDisable(true);
+                }
+                joinEventButton.setDisable(true);
             }
-            if (tableView.getSelectionModel().getSelectedItem().getCreatorID().equalsIgnoreCase(MainPageController.currentUserName)) {
+            if (creatorID.equalsIgnoreCase(MainPageController.currentUserName)) {
                 moreDetailsButton.setDisable(false);
             } else{
                 moreDetailsButton.setDisable(true);
@@ -167,23 +290,51 @@ public class MainPageController implements Initializable {
      * This method displays the additional details of the post that is selected from the tableView.
      ******************************************************************************************************************/
     public void getSelectedPostDetailsWithMouse(MouseEvent mouseEvent) {
+        String creatorID = tableView.getSelectionModel().getSelectedItem().getCreatorID();
         if (!tableView.getSelectionModel().isEmpty()) {
+            MainPageController.postIdForReply = tableView.getSelectionModel().getSelectedItem().getPostId();
             if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
                 postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+                if((!(creatorID.equalsIgnoreCase(MainPageController.currentUserName))) &&
+                        (tableView.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("OPEN"))){
+                    joinEventButton.setDisable(false);
+                }else {
+                    joinEventButton.setDisable(true);
+                }
+                replyButton.setDisable(true);
+                offerValueTextField.setDisable(true);
             } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'S') {
                 postSpecificLabel.setStyle("-fx-background-color:   #F4A460;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+                if(!(creatorID.equalsIgnoreCase(MainPageController.currentUserName)) &&
+                        (tableView.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("OPEN"))){
+                    replyButton.setDisable(false);
+                    offerValueTextField.setDisable(false);
+                }else {
+                    replyButton.setDisable(true);
+                    offerValueTextField.setDisable(true);
+                }
+                joinEventButton.setDisable(true);
             } else if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'J') {
                 postSpecificLabel.setStyle("-fx-background-color:   Add8E6;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
+                if(!(creatorID.equalsIgnoreCase(MainPageController.currentUserName)) &&
+                        (tableView.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("OPEN"))){
+                    replyButton.setDisable(false);
+                    offerValueTextField.setDisable(false);
+                } else {
+                    replyButton.setDisable(true);
+                    offerValueTextField.setDisable(true);
+                }
+                joinEventButton.setDisable(true);
             }
-            if (tableView.getSelectionModel().getSelectedItem().getCreatorID().equalsIgnoreCase(MainPageController.currentUserName)) {
+            if (creatorID.equalsIgnoreCase(MainPageController.currentUserName)) {
                 moreDetailsButton.setDisable(false);
             } else{
                 moreDetailsButton.setDisable(true);
             }
-        }
+        }else{ }
         return;
     }
 
@@ -209,8 +360,10 @@ public class MainPageController implements Initializable {
      ******************************************************************************************************************/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        joinEventButton.setDisable(true);
         moreDetailsButton.setDisable(true);
         replyButton.setDisable(true);
+        offerValueTextField.setDisable(true);
 
         //Updating the current user ID on the screen
         this.currentUserLabel.setText(MainPageController.currentUserName);

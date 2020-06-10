@@ -103,10 +103,8 @@ public abstract class Post {
 		return s;
 	}
 	
-	public abstract boolean handleReply(Reply reply);
+	public abstract int handleReply(Reply reply);
 	public abstract String getReplyDetails();
 	public abstract void printType();
 	public abstract boolean responseChecker(String resp);
-
-
 }

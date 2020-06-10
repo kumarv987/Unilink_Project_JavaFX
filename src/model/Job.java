@@ -92,15 +92,15 @@ public class Job extends Post{
 		return s;
 	}
 	
-	public boolean handleReply(Reply reply) {
+	public int handleReply(Reply reply) {
 		if(reply.getValue() > getPropPrice()) {
-			System.out.println("Offer not accepted!\n");
-			return false;
+			//System.out.println("Offer not accepted!\n");
+			return 0;
 		}
-		System.out.println("Offer accepted! \n");
+		//System.out.println("Offer accepted! \n");
 		super.getReplies().add(reply);
 		setLowOffer(reply.getValue());
-		return true;
+		return 1;
 	}
 	
 	public String getReplyDetails() {

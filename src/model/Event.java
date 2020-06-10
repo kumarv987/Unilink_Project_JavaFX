@@ -116,12 +116,12 @@ public class Event extends Post {
 		return s;
 	}
 	
-	public boolean handleReply(Reply reply) {
+	public int handleReply(Reply reply) {
 		if((getCapacity()-getAttCount()) > 0) {
 			for(int i=0; i<super.getReplies().size();i++) {	
 				if(super.getReplies().get(i).getRespId().equals(reply.getRespId())) {
-					System.out.println("You are already registered\n");
-					return false;
+					//System.out.println("You are already registered\n");
+					return -1;
 				}
 			}
 			setAttCount(getAttCount()+1);
@@ -129,12 +129,12 @@ public class Event extends Post {
 			if((getCapacity()-getAttCount()) == 0) {
 				super.setStatus("CLOSED");
 			}
-			System.out.println("Event Registration Accepted\n");
-			return true;
+			//System.out.println("Event Registration Accepted\n");
+			return 1;
 		}
 		else {
-			System.out.println("Event capacity is full.\n");
-			return false;
+			//System.out.println("Event capacity is full.\n");
+			return 0;
 		}
 	}
 	
