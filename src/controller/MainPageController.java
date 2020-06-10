@@ -3,6 +3,8 @@ package controller;
 import com.sun.tools.javac.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -42,6 +45,9 @@ public class MainPageController implements Initializable {
     @FXML private Button newSalePostButton;
     @FXML private Button newJobPostButton;
     @FXML private Button logOutButton;
+    @FXML private ChoiceBox typeChoiceBox;
+    @FXML private ChoiceBox statusChoiceBox;
+    @FXML private ChoiceBox creatorChoiceBox;
     @FXML private Label replyStatusLabel;
     @FXML private Label currentUserLabel;
     @FXML private Label postSpecificLabel;
@@ -72,7 +78,7 @@ public class MainPageController implements Initializable {
     }
 
     /*******************************************************************************************************************
-     * This method Creates a new event post.
+     * This method Creates a new sale post.
      ******************************************************************************************************************/
     public void salePostButtonPushed(ActionEvent event) throws IOException {
         //Now loading the new stage
@@ -87,7 +93,7 @@ public class MainPageController implements Initializable {
     }
 
     /*******************************************************************************************************************
-     * This method Creates a new event post.
+     * This method Creates a new job post.
      ******************************************************************************************************************/
     public void jobPostButtonPushed(ActionEvent event) throws IOException {
         //Now loading the new stage
@@ -290,8 +296,8 @@ public class MainPageController implements Initializable {
      * This method displays the additional details of the post that is selected from the tableView.
      ******************************************************************************************************************/
     public void getSelectedPostDetailsWithMouse(MouseEvent mouseEvent) {
-        String creatorID = tableView.getSelectionModel().getSelectedItem().getCreatorID();
         if (!tableView.getSelectionModel().isEmpty()) {
+            String creatorID = tableView.getSelectionModel().getSelectedItem().getCreatorID();
             MainPageController.postIdForReply = tableView.getSelectionModel().getSelectedItem().getPostId();
             if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
                 postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
@@ -334,8 +340,7 @@ public class MainPageController implements Initializable {
             } else{
                 moreDetailsButton.setDisable(true);
             }
-        }else{ }
-        return;
+        }
     }
 
     /*******************************************************************************************************************
@@ -379,8 +384,43 @@ public class MainPageController implements Initializable {
         //Load the data in table View
         tableView.setItems(getPosts());
 
-        if(tableView.getSelectionModel().getSelectedItem() != null){
-            System.out.println("Item is selected");
+        //Configuring the choice box list
+        typeChoiceBox.getItems().add("All");
+        typeChoiceBox.getItems().add("Event");
+        typeChoiceBox.getItems().add("Sale");
+        typeChoiceBox.getItems().add("Job");
+
+        statusChoiceBox.getItems().add("OPEN");
+        statusChoiceBox.getItems().add("CLOSED");
+        statusChoiceBox.getItems().add("All");
+
+        creatorChoiceBox.getItems().add("All");
+        for(int i=0; i<MainPageController.listOfUsers.size();i++){
+            creatorChoiceBox.getItems().add(MainPageController.listOfUsers.get(i).getUserName());
         }
+
+        typeChoiceBox.setValue("All");
+        statusChoiceBox.setValue("All");
+        creatorChoiceBox.setValue("All");
+/*
+        //Wrap the ObservableList in a FilteredList initially
+        FilteredList<Post> filteredData = new FilteredList<Post>(tableView.getItems(),b -> true);
+
+        typeChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue) -> {
+            filteredData.setPredicate(Post -> {
+                if(newValue == null){
+                    return true;
+                }
+                System.out.println(postIDColumn.getCellFactory());
+                if(tableView.getColumns().equals()){
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Post> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedData);
+*/
     }
 }

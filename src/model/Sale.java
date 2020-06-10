@@ -87,17 +87,17 @@ public class Sale extends Post{
 	//This method overrides the Post class method
 	public String getPostDetails() {
 		String s1 = super.getPostDetails();
-		StringBuilder str1 = new StringBuilder("Minimum raise: " +getMinRaise()+ "\n\n");
-		StringBuilder str2 = new StringBuilder("Highest Offer: " +getHighOffer()+ "\n\n");
+		StringBuilder str1 = new StringBuilder("Minimum raise: " +getMinRaise()+ "\n");
+		StringBuilder str2 = new StringBuilder("Highest Offer: " +getHighOffer()+ "\n");
 		String s = s1+str1.append(str2).toString();
 		return s;
 	}
 	
 	//This method overrides the Post class method
 		public String getPostDetails(String newVal) {
-			StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n\n");
-			StringBuilder str2 = new StringBuilder("Highest offer: $" + getHighOffer() + "\n\n");
-			StringBuilder str3 = new StringBuilder("Minimum raise: $"+ getMinRaise() + "\n\n");
+			StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
+			StringBuilder str2 = new StringBuilder("Highest offer: $" + getHighOffer() + "\n");
+			StringBuilder str3 = new StringBuilder("Minimum raise: $"+ getMinRaise() + "\n");
 			String s = str1.append(str2).append(str3).toString();
 			return s;
 		}
@@ -124,16 +124,16 @@ public class Sale extends Post{
 	}
 	
 	public String getReplyDetails() {
-		String s1 = getPostDetails();
-		String s2 = "\nAsking Price: $" + this.askPrice + "\n\n";
-		String s3 = "-- Offer History--\n";
+		//String s1 = getPostDetails();
+		//String s2 = "\nAsking Price: $" + this.askPrice + "\n\n";
+		//String s3 = "-- Offer History--\n";
 		
 		ArrayList<String> offerList = new ArrayList<String>();
 		for(int i=0; i<super.getReplies().size();i++) {
 			offerList.add(super.getReplies().get(i).getRespId());
 		}
 		
-		String str = s1+s2+s3;
+		String str = new String();
 		for(int i=offerList.size()-1; i>=0; i--) {
 			String temp1 = super.getReplies().get(i).getRespId();
 			String temp2 = String.valueOf(super.getReplies().get(i).getValue());

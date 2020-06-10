@@ -9,93 +9,78 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PostDetailController">
    <children>
-      <BorderPane prefHeight="500.0" prefWidth="700.0">
-         <top>
-            <HBox prefHeight="58.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button mnemonicParsing="false" text="Back To Main Window">
-                     <HBox.margin>
-                        <Insets left="10.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Label text="TITLE FOR THIS WINDOW">
-                     <HBox.margin>
-                        <Insets left="150.0" top="15.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-         </top>
-         <left>
-            <VBox prefHeight="233.0" prefWidth="240.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="220.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </ImageView>
-                  <Button mnemonicParsing="false" text="Upload Image">
-                     <VBox.margin>
-                        <Insets left="78.0" top="12.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
-         </left>
-         <bottom>
-            <TableView prefHeight="180.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </bottom>
-         <right>
-            <VBox prefHeight="226.0" prefWidth="170.0" spacing="40.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button mnemonicParsing="false" text="Close Post">
-                     <VBox.margin>
-                        <Insets left="3.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Delete Post" />
-                  <Button mnemonicParsing="false" text="Save">
-                     <VBox.margin>
-                        <Insets left="18.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-               <BorderPane.margin>
+      <HBox prefHeight="58.0" prefWidth="700.0">
+         <children>
+            <Button fx:id="backToMainWindowButton" mnemonicParsing="false" onAction="#backToMainWindowButtonPushed" text="Back To Main Window">
+               <HBox.margin>
+                  <Insets left="10.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Label alignment="CENTER" contentDisplay="BOTTOM" text="Post Detail Window">
+               <HBox.margin>
+                  <Insets left="120.0" top="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox layoutX="14.0" layoutY="86.0" prefHeight="261.0" prefWidth="220.0" spacing="5.0">
+         <children>
+            <ImageView fx:id="postImageView" fitHeight="220.0" fitWidth="227.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
                   <Insets />
-               </BorderPane.margin>
-               <padding>
-                  <Insets left="50.0" top="50.0" />
-               </padding>
-            </VBox>
-         </right>
-         <center>
-            <AnchorPane prefHeight="262.0" prefWidth="298.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="235.0" prefWidth="262.0" text="Label">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-               </children>
+               </VBox.margin>
+            </ImageView>
+            <Button fx:id="postUploadImageButton" mnemonicParsing="false" onAction="#postUploadImageButtonPushed" text="Upload Image">
+               <VBox.margin>
+                  <Insets left="70.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="228.0" layoutY="65.0" prefHeight="262.0" prefWidth="298.0">
+         <children>
+            <Label fx:id="postDetailWindowLabel" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="22.0" layoutY="14.0" prefHeight="235.0" prefWidth="262.0" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-            </AnchorPane>
-         </center>
-      </BorderPane>
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </AnchorPane>
+      <VBox alignment="CENTER" layoutX="539.0" layoutY="65.0" prefHeight="261.0" prefWidth="161.0" spacing="30.0">
+         <children>
+            <Button fx:id="closePostButton" mnemonicParsing="false" text="Close Post">
+               <VBox.margin>
+                  <Insets left="3.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="deletePostButton" mnemonicParsing="false" text="Delete Post" />
+            <Button fx:id="saveEditButton" graphicTextGap="0.0" mnemonicParsing="false" text="Save (after edit)">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </VBox>
+      <TableView fx:id="replyTableView" layoutX="377.0" layoutY="326.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="309.0">
+        <columns>
+          <TableColumn fx:id="responderIdTableColumn" prefWidth="158.0" text="Responder ID" />
+          <TableColumn fx:id="offerValueTableColumn" minWidth="0.0" prefWidth="148.0" text="Offer Values" />
+        </columns>
+      </TableView>
+      <Label fx:id="postExceptionLabel" layoutX="66.0" layoutY="358.0" prefHeight="112.0" prefWidth="239.0" />
    </children>
 </AnchorPane>

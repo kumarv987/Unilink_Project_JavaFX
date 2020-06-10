@@ -99,10 +99,10 @@ public class Event extends Post {
 	//This method overrides the Post class method
 	public String getPostDetails() {
 		String s1 = super.getPostDetails();
-		StringBuilder str1 = new StringBuilder("Venue:         " +getVenue() + "\n\n");
-		StringBuilder str2 = new StringBuilder("Date:          " +getDate() + "\n\n");
-		StringBuilder str3 = new StringBuilder("Capacity:      " +getCapacity() + "\n\n");
-		StringBuilder str4 = new StringBuilder("Attendees:     " +getAttCount() + "\n\n");
+		StringBuilder str1 = new StringBuilder("Venue:         " +getVenue() + "\n");
+		StringBuilder str2 = new StringBuilder("Date:          " +getDate() + "\n");
+		StringBuilder str3 = new StringBuilder("Capacity:      " +getCapacity() + "\n");
+		StringBuilder str4 = new StringBuilder("Attendees:     " +getAttCount() + "\n");
 		String s = s1+str1.append(str2).append(str3).append(str4).toString();
 		return s;
 	}
@@ -139,11 +139,11 @@ public class Event extends Post {
 	}
 	
 	public String getReplyDetails() {
-		String s1 = getPostDetails();
+		//String s1 = getPostDetails();
 		if(getAttCount() == 0) {
 			String s3 = "\nAttendee list: Empty";
-			String s = s1+s3;
-			return s;
+			//String s = s3;
+			return s3;
 		}
 		
 		ArrayList<String> attList = new ArrayList<String>();
@@ -151,7 +151,7 @@ public class Event extends Post {
 			attList.add(super.getReplies().get(i).getRespId());
 		}
 		String s2 = "\nAttendee list: ";
-		String str = s1+s2;
+		String str = s2;
 		for(int i=0; i<attList.size(); i++) {
 			if(i < (attList.size()-1)) {
 				str += attList.get(i)+", ";

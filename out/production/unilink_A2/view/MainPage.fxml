@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPageController">
    <children>
-      <VBox prefHeight="75.0" prefWidth="900.0">
+      <VBox prefHeight="75.0" prefWidth="960.0">
          <children>
             <MenuBar prefHeight="25.0" prefWidth="877.0">
               <menus>
@@ -29,7 +29,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <ToolBar maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="700.0">
+            <ToolBar maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="881.0">
               <items>
                 <Button fx:id="newEventPostButton" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#eventPostButtonPushed" style="-fx-background-color: #66CDAA;" text="New Event Post">
                      <font>
@@ -46,16 +46,22 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" textAlignment="RIGHT" wrappingWidth="153.0" />
-                  <ChoiceBox minHeight="30.0" prefWidth="50.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" textAlignment="RIGHT" wrappingWidth="55.0" />
-                  <ChoiceBox minHeight="30.0" prefWidth="50.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Creator:" textAlignment="RIGHT" wrappingWidth="55.0" />
-                  <ChoiceBox minHeight="30.0" prefWidth="80.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" textAlignment="RIGHT" wrappingWidth="51.0" />
+                  <ChoiceBox fx:id="typeChoiceBox" minHeight="30.0" prefHeight="30.0" prefWidth="69.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" textAlignment="RIGHT" wrappingWidth="51.0" />
+                  <ChoiceBox fx:id="statusChoiceBox" minHeight="30.0" prefHeight="30.0" prefWidth="76.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Creator:" textAlignment="RIGHT" wrappingWidth="61.0" />
+                  <ChoiceBox fx:id="creatorChoiceBox" minHeight="30.0" prefWidth="80.0" />
               </items>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </ToolBar>
          </children>
       </VBox>
