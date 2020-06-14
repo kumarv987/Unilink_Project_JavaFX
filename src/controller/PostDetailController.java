@@ -84,6 +84,36 @@ public class PostDetailController implements Initializable {
     }
 
     /*******************************************************************************************************************
+     * This allows the user to go Delete the post.
+     ******************************************************************************************************************/
+    public void deletePostButtonPushed(ActionEvent event){
+        ArrayList<Integer> indexOfUsersWithPosts = usersWhoCreatedPosts();
+        for(int i=0; i<indexOfUsersWithPosts.size(); i++) {
+            ArrayList<Post> p = MainPageController.listOfUsers.get(indexOfUsersWithPosts.get(i)).getUserPosts();
+            for (int j = 0; j < p.size(); j++) {
+                if (p.get(j).getPostId().equalsIgnoreCase(MainPageController.postIdForReply)) {
+                    p.remove(j);
+                }
+            }
+        }
+    }
+
+    /*******************************************************************************************************************
+     * This allows the user to go Close the post.
+     ******************************************************************************************************************/
+    public void closePostButtonPushed(ActionEvent event){
+        ArrayList<Integer> indexOfUsersWithPosts = usersWhoCreatedPosts();
+        for(int i=0; i<indexOfUsersWithPosts.size(); i++) {
+            ArrayList<Post> p = MainPageController.listOfUsers.get(indexOfUsersWithPosts.get(i)).getUserPosts();
+            for (int j = 0; j < p.size(); j++) {
+                if (p.get(j).getPostId().equalsIgnoreCase(MainPageController.postIdForReply)) {
+                    p.get(j).setStatus("CLOSED");
+                }
+            }
+        }
+    }
+
+    /*******************************************************************************************************************
      * This method prints the Post details on the Label
      ******************************************************************************************************************/
     public void getPostDetailsOnLabel(){
@@ -91,17 +121,18 @@ public class PostDetailController implements Initializable {
             for(int j=0; j<MainPageController.listOfUsers.get(i).getUserPosts().size(); j++){
                 String postId = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
                 String postDetails = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostDetails();
+                String postStatus = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getStatus();
                 if(postId.equalsIgnoreCase(MainPageController.postIdForReply)){
                     if(postId.charAt(0) == 'E') {
                         String replyDetails = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplyDetails();
                         postDetailWindowLabel.setStyle("-fx-background-color:  #66CDAA;");
-                        postDetailWindowLabel.setText(postDetails+replyDetails);
+                        postDetailWindowLabel.setText(postDetails+"\n"+postStatus+replyDetails);
                     } else if(postId.charAt(0) == 'J'){
                         postDetailWindowLabel.setStyle("-fx-background-color:   Add8E6;");
-                        postDetailWindowLabel.setText(postDetails);
+                        postDetailWindowLabel.setText(postDetails+"\n"+postStatus);
                     }else{
                         postDetailWindowLabel.setStyle("-fx-background-color:  #F4A460;");
-                        postDetailWindowLabel.setText(postDetails);
+                        postDetailWindowLabel.setText(postDetails+"\n"+postStatus);
                     }
                 }
             }
@@ -156,5 +187,10 @@ public class PostDetailController implements Initializable {
 
         //Load the data in table View
         replyTableView.setItems(getReplies());
+
+        if(!(replyTableView.getItems().isEmpty())){
+            saveEditButton.setDisable(true);
+            postUploadImageButton.setDisable(true);
+        }
     }
 }

@@ -2,6 +2,7 @@ package model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
+import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -94,14 +95,24 @@ public class Sale extends Post{
 	}
 	
 	//This method overrides the Post class method
-		public String getPostDetails(String newVal) {
-			StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
-			StringBuilder str2 = new StringBuilder("Highest offer: $" + getHighOffer() + "\n");
-			StringBuilder str3 = new StringBuilder("Minimum raise: $"+ getMinRaise() + "\n");
-			String s = str1.append(str2).append(str3).toString();
-			return s;
-		}
-	
+	public String getPostDetails(String newVal) {
+		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
+		StringBuilder str2 = new StringBuilder("Highest offer: $" + getHighOffer() + "\n");
+		StringBuilder str3 = new StringBuilder("Minimum raise: $"+ getMinRaise() + "\n");
+		String s = str1.append(str2).append(str3).toString();
+		return s;
+	}
+
+	public void saveData() {
+		// Save Post data
+		// Save Post data
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+
+		sqlJdbcAdaptor.insertValue(String.format(
+				"INSERT INTO sale VALUE (%s, %s, %s, %s, %s)",getPostOwnId(),getAskPrice(),getHighOffer(),getMinRaise(),getSaleId()
+				));
+	}
+
 	public int handleReply(Reply reply) {
 		System.out.println(reply.getValue());
 		if(reply.getValue() < (getHighOffer()+getMinRaise())) {

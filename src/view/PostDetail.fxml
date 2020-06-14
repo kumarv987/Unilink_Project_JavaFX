@@ -59,12 +59,12 @@
       </AnchorPane>
       <VBox alignment="CENTER" layoutX="539.0" layoutY="65.0" prefHeight="261.0" prefWidth="161.0" spacing="30.0">
          <children>
-            <Button fx:id="closePostButton" mnemonicParsing="false" text="Close Post">
+            <Button fx:id="closePostButton" mnemonicParsing="false" onAction="#closePostButtonPushed" text="Close Post">
                <VBox.margin>
                   <Insets left="3.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="deletePostButton" mnemonicParsing="false" text="Delete Post" />
+            <Button fx:id="deletePostButton" mnemonicParsing="false" onAction="#deletePostButtonPushed" text="Delete Post" />
             <Button fx:id="saveEditButton" graphicTextGap="0.0" mnemonicParsing="false" text="Save (after edit)">
                <VBox.margin>
                   <Insets />

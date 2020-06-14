@@ -1,6 +1,7 @@
 package model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
+import model.hsql_db.SQLJdbcAdaptor;
 
 import java.util.*;
 
@@ -12,6 +13,7 @@ public abstract class Post {
 	private ArrayList<Reply> replies;
 	private Image photo;
 	private SimpleStringProperty creatorID;
+	private String postOwnId;
 	
 	//Constructor
 	public Post(String title, String description, String creatorID) {
@@ -30,6 +32,19 @@ public abstract class Post {
 		this.status = new SimpleStringProperty("OPEN");
 		this.replies=new ArrayList<>();
 		this.photo = photo;
+	}
+
+	public void saveData() {
+		// Save Post data
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+
+		sqlJdbcAdaptor.insertValue(String.format(
+				"INSERT INTO posts VALUE (%s, %s, %s, %s, %s, %s)",postOwnId,getTitle(),getDescription(),getStatus(),getPhoto().toString(),getCreatorID()
+				));
+
+		for (Reply reply: replies) {
+			reply.saveData();
+		}
 	}
 	
 	//5 getter methods
@@ -60,6 +75,8 @@ public abstract class Post {
 	public String getCreatorID(){
 		return creatorID.get();
 	}
+
+	public String getPostOwnId(){return this.postOwnId;}
 	
 	//5 setter methods
 	public void setPostId(String postId) {
@@ -107,4 +124,8 @@ public abstract class Post {
 	public abstract String getReplyDetails();
 	public abstract void printType();
 	public abstract boolean responseChecker(String resp);
+
+	public void setPostOwnId(String postOwnId) {
+		this.postOwnId = postOwnId;
+	}
 }

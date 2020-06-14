@@ -2,6 +2,7 @@ package model;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
+import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -114,6 +115,16 @@ public class Event extends Post {
 		StringBuilder str3 = new StringBuilder("Status: "+ super.getStatus() + "\n");
 		String s = str1.append(str2).append(str3).toString();
 		return s;
+	}
+
+	public void saveData() {
+		// Save Post data
+		// Save Post data
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+
+		sqlJdbcAdaptor.insertValue(String.format(
+				"INSERT INTO event VALUE (%s, %s, %s, %s, %s, %s)", super.getPostOwnId(),getVenue(),getDate(),getCapacity(),getAttCount(),getEventId()
+				));
 	}
 	
 	public int handleReply(Reply reply) {

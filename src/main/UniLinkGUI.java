@@ -6,6 +6,7 @@ import javafx.scene.*;
 import javafx.stage.*;
 import model.*;
 import controller.*;
+import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.IOException;
 
@@ -17,9 +18,12 @@ public class UniLinkGUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         loginPageEntry(stage);
+        SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+//        sqlJdbcAdaptor.initTables();
     }
 
     private void loginPageEntry(Stage stage){
+
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"));
             Scene scene = new Scene(root);
