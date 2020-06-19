@@ -10,7 +10,7 @@ public class Reply {
 	private SimpleDoubleProperty value;
 	private SimpleStringProperty respId;
 	private static int replyNumId = 0;
-	
+
 	//Constructor
 	public Reply(String postId, double value, String respId) {
 		this.postId = new SimpleStringProperty(postId);
@@ -22,6 +22,9 @@ public class Reply {
 
 	public String getReplyId() {
 		return this.replyId;
+	}
+	private void setReplyId(String s) {
+		this.replyId = s;
 	}
 
 	public static void setReplyNumId(int replyNumId) {
@@ -36,41 +39,28 @@ public class Reply {
 		setReplyId(s);
 	}
 
-	private void setReplyId(String s) {
-		this.replyId = s;
-	}
-
-	public void saveData() {
-		// Save what up there in DB
-		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
-
-		sqlJdbcAdaptor.insertValue(String.format(
-				"INSERT INTO reply VALUE (%s, %s, %s, %s)",getReplyId(),getPostId(),getRespId(),getValue()
-		));
-	}
-	
 	//3 Getter Methods
 	public String getPostId() {
 		return postId.get();
 	}
-	
+
 	public double getValue() {
 		return value.get();
 	}
-	
+
 	public String getRespId() {
 		return respId.get();
 	}
-	
+
 	//3 Setter Methods
 	public void setPostId(String postId) {
 		this.postId = new SimpleStringProperty(postId);
 	}
-	
+
 	public void setValue(double val) {
 		this.value = new SimpleDoubleProperty(val);
 	}
-	
+
 	public void setRespId(String respId) {
 		this.respId = new SimpleStringProperty(respId);
 	}

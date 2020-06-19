@@ -14,7 +14,7 @@ public class Event extends Post {
 	private SimpleStringProperty date;
 	private SimpleIntegerProperty capacity;
 	private SimpleIntegerProperty attCount;
-	
+
 	//Constructor that calls constructor of Post class first
 	public Event(String title, String desc, String venue, String date, int capacity, String creatorID) throws FileNotFoundException {
 		super(title,desc, creatorID);
@@ -38,16 +38,16 @@ public class Event extends Post {
 		super.setPostId(getEventId());
 	}
 
-	
+
 	// Getter methods
 	public int getNumId() {
 		return numId;
 	}
-	
+
 	public String getEventId() {
 		return eventId;
 	}
-	
+
 	public int getAttCount() {
 		return attCount.get();
 	}
@@ -63,12 +63,12 @@ public class Event extends Post {
 	public int getCapacity(){
 		return capacity.get();
 	}
-	
+
 	//Setter methods
 	public void setEventId(String eId) {
 		this.eventId = eId;
 	}
-	
+
 	public void setNumId(int n) {
 		numId = n;
 	}
@@ -96,7 +96,7 @@ public class Event extends Post {
 		String s = s1+str;
 		setEventId(s);
 	}
-	
+
 	//This method overrides the Post class method
 	public String getPostDetails() {
 		String s1 = super.getPostDetails();
@@ -107,7 +107,7 @@ public class Event extends Post {
 		String s = s1+str1.append(str2).append(str3).append(str4).toString();
 		return s;
 	}
-	
+
 	//This method overrides the Post class method
 	public String getPostDetails(String newVal) {
 		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
@@ -117,19 +117,9 @@ public class Event extends Post {
 		return s;
 	}
 
-	public void saveData() {
-		// Save Post data
-		// Save Post data
-		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
-
-		sqlJdbcAdaptor.insertValue(String.format(
-				"INSERT INTO event VALUE (%s, %s, %s, %s, %s, %s)", super.getPostOwnId(),getVenue(),getDate(),getCapacity(),getAttCount(),getEventId()
-				));
-	}
-	
 	public int handleReply(Reply reply) {
 		if((getCapacity()-getAttCount()) > 0) {
-			for(int i=0; i<super.getReplies().size();i++) {	
+			for(int i=0; i<super.getReplies().size();i++) {
 				if(super.getReplies().get(i).getRespId().equals(reply.getRespId())) {
 					//System.out.println("You are already registered\n");
 					return -1;
@@ -148,7 +138,7 @@ public class Event extends Post {
 			return 0;
 		}
 	}
-	
+
 	public String getReplyDetails() {
 		//String s1 = getPostDetails();
 		if(getAttCount() == 0) {
@@ -156,7 +146,7 @@ public class Event extends Post {
 			//String s = s3;
 			return s3;
 		}
-		
+
 		ArrayList<String> attList = new ArrayList<String>();
 		for(int i=0; i<super.getReplies().size();i++) {
 			attList.add(super.getReplies().get(i).getRespId());
@@ -173,11 +163,11 @@ public class Event extends Post {
 		}
 		return str;
 	}
-	
+
 	public void printType() {
 		System.out.print("Enter '1' to join the event or 'Q' to quit: ");
 	}
-	
+
 	public boolean responseChecker(String resp) {
 		return resp.equals("1");
 	}

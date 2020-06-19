@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class User {
     private SimpleStringProperty userName;
     private ArrayList<Post> userPosts = new ArrayList<>();
+    private static int postSpecificID = 1000;
 
     //Constructor
     public User(String userName){
@@ -27,8 +28,11 @@ public class User {
         this.userPosts = userPosts;
     }
 
+
     //This method adds a new post to the userPosts
     public void addPostToUserPosts(Post post){
+        post.setPostOwnId(postSpecificID);
         this.userPosts.add(post);
+        postSpecificID++;
     }
 }

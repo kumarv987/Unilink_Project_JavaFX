@@ -13,7 +13,7 @@ public class Sale extends Post{
 	private SimpleDoubleProperty minRaise;
 	private String saleId;
 	private static int saleNumId = 0;
-	
+
 	//Constructor that calls constructor of Post class first
 	public Sale(String title, String desc, double askPrice, double minRaise, String creatorID) throws FileNotFoundException {
 		super(title,desc,creatorID);
@@ -34,12 +34,12 @@ public class Sale extends Post{
 		generateSaleId();
 		super.setPostId(getSaleId());
 	}
-	
+
 	//2 getter methods
 	public int getSaleNumId() {
 		return saleNumId;
 	}
-	
+
 	public String getSaleId() {
 		return saleId;
 	}
@@ -60,7 +60,7 @@ public class Sale extends Post{
 	public void setSaleNumId(int num) {
 		saleNumId = num;
 	}
-	
+
 	public void setSaleId(String saleId) {
 		this.saleId = saleId;
 	}
@@ -84,7 +84,7 @@ public class Sale extends Post{
 		String s = s1+str;
 		setSaleId(s);
 	}
-	
+
 	//This method overrides the Post class method
 	public String getPostDetails() {
 		String s1 = super.getPostDetails();
@@ -93,7 +93,7 @@ public class Sale extends Post{
 		String s = s1+str1.append(str2).toString();
 		return s;
 	}
-	
+
 	//This method overrides the Post class method
 	public String getPostDetails(String newVal) {
 		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
@@ -103,16 +103,7 @@ public class Sale extends Post{
 		return s;
 	}
 
-	public void saveData() {
-		// Save Post data
-		// Save Post data
-		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
-
-		sqlJdbcAdaptor.insertValue(String.format(
-				"INSERT INTO sale VALUE (%s, %s, %s, %s, %s)",getPostOwnId(),getAskPrice(),getHighOffer(),getMinRaise(),getSaleId()
-				));
-	}
-
+	//This method handle the reply details
 	public int handleReply(Reply reply) {
 		System.out.println(reply.getValue());
 		if(reply.getValue() < (getHighOffer()+getMinRaise())) {
@@ -133,17 +124,17 @@ public class Sale extends Post{
 		System.out.println(getHighOffer());
 		return 2;
 	}
-	
+
 	public String getReplyDetails() {
 		//String s1 = getPostDetails();
 		//String s2 = "\nAsking Price: $" + this.askPrice + "\n\n";
 		//String s3 = "-- Offer History--\n";
-		
+
 		ArrayList<String> offerList = new ArrayList<String>();
 		for(int i=0; i<super.getReplies().size();i++) {
 			offerList.add(super.getReplies().get(i).getRespId());
 		}
-		
+
 		String str = new String();
 		for(int i=offerList.size()-1; i>=0; i--) {
 			String temp1 = super.getReplies().get(i).getRespId();
@@ -153,11 +144,11 @@ public class Sale extends Post{
 		}
 		return str;
 	}
-	
+
 	public void printType() {
 		System.out.print("Enter your offer or 'Q' to quit: ");
 	}
-	
+
 	public boolean responseChecker(String resp) {
 		
 		/*
@@ -178,5 +169,5 @@ public class Sale extends Post{
 		}*/
 		return true;
 	}
-	
+
 }

@@ -9,6 +9,8 @@ import controller.*;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 public class UniLinkGUI extends Application {
     public static void main(String[] args){
@@ -17,13 +19,18 @@ public class UniLinkGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //Printing information from database
+        /*SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+        try (Connection connection = sqlJdbcAdaptor.getConnection("unilink-db")){
+            String query = "SELECT * FROM user NATURAL JOIN posts";
+            System.out.println("fONE");
+            sqlJdbcAdaptor.executeQuery(query);
+        }*/
+
         loginPageEntry(stage);
-        SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
-//        sqlJdbcAdaptor.initTables();
     }
 
     private void loginPageEntry(Stage stage){
-
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/LoginPage.fxml"));
             Scene scene = new Scene(root);

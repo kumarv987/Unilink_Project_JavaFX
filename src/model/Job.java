@@ -13,7 +13,7 @@ public class Job extends Post{
 	private String jobId;
 	private SimpleDoubleProperty propPrice;
 	private SimpleDoubleProperty lowOffer;
-	
+
 	//Constructor that calls constructor of Post class first
 	public Job(String title, String desc, double propPrice, String creatorID) throws FileNotFoundException {
 		super(title,desc,creatorID);
@@ -32,12 +32,12 @@ public class Job extends Post{
 		generateJobId();
 		super.setPostId(getJobId());
 	}
-	
+
 	//2 getter methods
 	public int getJobNumId() {
 		return jobNumId;
 	}
-	
+
 	public String getJobId() {
 		return jobId;
 	}
@@ -49,12 +49,12 @@ public class Job extends Post{
 	public double getLowOffer(){
 		return lowOffer.get();
 	}
-	
+
 	//2 setter methods
 	public void setJobNumId(int n) {
 		jobNumId = n;
 	}
-	
+
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
 	}
@@ -74,7 +74,7 @@ public class Job extends Post{
 		String s = s1+str;
 		setJobId(s);
 	}
-	
+
 	//This method overrides the Post class method
 	public String getPostDetails() {
 		String s1 = super.getPostDetails();
@@ -83,7 +83,7 @@ public class Job extends Post{
 		String s = s1+str1.append(str2).toString();
 		return s;
 	}
-	
+
 	//This method overrides the Post class method
 	public String getPostDetails(String newVal) {
 		StringBuilder str1 = new StringBuilder("Name: " + super.getTitle() + "\n");
@@ -92,17 +92,6 @@ public class Job extends Post{
 		String s = str1.append(str2).append(str3).toString();
 		return s;
 	}
-
-	public void saveData() {
-		// Save Post data
-		// Save Post data
-		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
-
-		sqlJdbcAdaptor.insertValue(String.format(
-				"INSERT INTO job VALUE (%s, %s, %s, %s)", getPostOwnId(),getJobId(),getPropPrice(),getLowOffer()
-				));
-	}
-
 
 	public int handleReply(Reply reply) {
 		if(reply.getValue() > getPropPrice()) {
@@ -114,16 +103,16 @@ public class Job extends Post{
 		setLowOffer(reply.getValue());
 		return 1;
 	}
-	
+
 	public String getReplyDetails() {
 		//String s1 = getPostDetails();
 		//String s2 = "\n-- Offer History--\n";
-		
+
 		ArrayList<String> offerList = new ArrayList<String>();
 		for(int i=0; i<super.getReplies().size();i++) {
 			offerList.add(super.getReplies().get(i).getRespId());
 		}
-		
+
 		String str = new String();
 		for(int i=offerList.size()-1; i>=0; i--) {
 			String temp1 = super.getReplies().get(i).getRespId();
@@ -133,11 +122,11 @@ public class Job extends Post{
 		}
 		return str;
 	}
-	
+
 	public void printType() {
 		System.out.print("Enter your offer or 'Q' to quit: ");
 	}
-	
+
 	public boolean responseChecker(String resp) {
 		return true;
 	}

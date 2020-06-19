@@ -10,110 +10,110 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPageController">
-   <children>
-      <VBox prefHeight="75.0" prefWidth="960.0">
-         <children>
-            <MenuBar prefHeight="25.0" prefWidth="877.0">
-              <menus>
-                <Menu mnemonicParsing="false" text="Unilink">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Developer Information" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Data">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Export" />
-                        <MenuItem mnemonicParsing="false" text="Import" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <ToolBar maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="881.0">
-              <items>
-                <Button fx:id="newEventPostButton" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#eventPostButtonPushed" style="-fx-background-color: #66CDAA;" text="New Event Post">
-                     <font>
+<AnchorPane fx:id="anchorID" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPageController">
+    <children>
+        <VBox prefHeight="75.0" prefWidth="900.0">
+            <children>
+                <MenuBar maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="900.0">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Unilink">
+                            <items>
+                                <MenuItem fx:id="developerInformationOption" mnemonicParsing="false" onAction="#developerOptionSelected" text="Developer Information" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Data">
+                            <items>
+                                <MenuItem fx:id="exportOption" mnemonicParsing="false" onAction="#exportOptionSelected" text="Export" />
+                                <MenuItem fx:id="importOption" mnemonicParsing="false" onAction="#importOptionSelected" text="Import" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <ToolBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="900.0">
+                    <items>
+                        <Button fx:id="newEventPostButton" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#eventPostButtonPushed" style="-fx-background-color: #66CDAA;" text="New Event Post">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="newSalePostButton" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#salePostButtonPushed" style="-fx-background-color: #F4A460;" text="New Sale Post">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="newJobPostButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#jobPostButtonPushed" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: Add8E6;" text="New Job Post">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" textAlignment="RIGHT" wrappingWidth="51.0" />
+                        <ChoiceBox fx:id="typeChoiceBox" minHeight="30.0" prefHeight="30.0" prefWidth="69.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" textAlignment="RIGHT" wrappingWidth="51.0" />
+                        <ChoiceBox fx:id="statusChoiceBox" minHeight="30.0" prefHeight="30.0" prefWidth="76.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Creator:" textAlignment="RIGHT" wrappingWidth="61.0" />
+                        <ChoiceBox fx:id="creatorChoiceBox" minHeight="30.0" prefWidth="80.0" />
+                    </items>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                </ToolBar>
+            </children>
+        </VBox>
+        <HBox layoutY="75.0" prefHeight="35.0" prefWidth="900.0" spacing="5.0">
+            <children>
+                <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="445.0" text="Welcome to the System:">
+                    <font>
+                        <Font name="System Italic" size="14.0" />
+                    </font>
+                </Label>
+                <Label fx:id="currentUserLabel" contentDisplay="CENTER" prefHeight="35.0" prefWidth="445.0" textFill="BLUE">
+                    <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                    </font></Label>
+            </children>
+        </HBox>
+        <AnchorPane layoutX="86.0" layoutY="644.0" prefHeight="42.0" prefWidth="800.0">
+            <children>
+                <Button fx:id="logOutButton" layoutX="727.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonPushed" style="-fx-background-color: #FF4500;" text="Log Out" />
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutY="109.0" prefHeight="439.0" prefWidth="900.0">
+            <children>
+                <TableView fx:id="tableView" layoutX="8.0" onKeyPressed="#getSelectedPostDetailsWithKeyboard" onMouseClicked="#getSelectedPostDetailsWithMouse" prefHeight="384.0" prefWidth="605.0">
+                    <columns>
+                        <TableColumn fx:id="postIDColumn" prefWidth="51.0" text="Post ID" />
+                        <TableColumn fx:id="titleColumn" prefWidth="146.0" text="Title" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="268.0" text="Description" />
+                        <TableColumn fx:id="statusColumn" prefWidth="68.0" text="Status" />
+                        <TableColumn fx:id="creatorIDColumn" prefWidth="73.0" text="Creator ID" />
+                    </columns>
+                </TableView>
+                <ImageView fx:id="postImage" fitHeight="68.0" fitWidth="105.0" layoutX="704.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="postSpecificLabel" alignment="TOP_LEFT" layoutX="626.0" layoutY="97.0" onKeyPressed="#getSelectedPostDetailsWithKeyboard" onMouseClicked="#getSelectedPostDetailsWithMouse" prefHeight="287.0" prefWidth="259.0" wrapText="true">
+                    <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                    </font></Label>
+                <Label layoutX="724.0" layoutY="6.0" text="Post Image">
+                    <font>
                         <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="newSalePostButton" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#salePostButtonPushed" style="-fx-background-color: #F4A460;" text="New Sale Post">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="newJobPostButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#jobPostButtonPushed" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: Add8E6;" text="New Job Post">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" textAlignment="RIGHT" wrappingWidth="51.0" />
-                  <ChoiceBox fx:id="typeChoiceBox" minHeight="30.0" prefHeight="30.0" prefWidth="69.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" textAlignment="RIGHT" wrappingWidth="51.0" />
-                  <ChoiceBox fx:id="statusChoiceBox" minHeight="30.0" prefHeight="30.0" prefWidth="76.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Creator:" textAlignment="RIGHT" wrappingWidth="61.0" />
-                  <ChoiceBox fx:id="creatorChoiceBox" minHeight="30.0" prefWidth="80.0" />
-              </items>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </ToolBar>
-         </children>
-      </VBox>
-      <HBox layoutY="75.0" prefHeight="35.0" prefWidth="900.0" spacing="5.0">
-         <children>
-            <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="445.0" text="Welcome to the System:">
-               <font>
-                  <Font name="System Italic" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="currentUserLabel" contentDisplay="CENTER" prefHeight="35.0" prefWidth="445.0" textFill="BLUE">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-         </children>
-      </HBox>
-      <AnchorPane layoutX="86.0" layoutY="644.0" prefHeight="42.0" prefWidth="800.0">
-         <children>
-            <Button fx:id="logOutButton" layoutX="727.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonPushed" style="-fx-background-color: #FF4500;" text="Log Out" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="109.0" prefHeight="439.0" prefWidth="900.0">
-         <children>
-            <TableView fx:id="tableView" layoutX="8.0" onKeyPressed="#getSelectedPostDetailsWithKeyboard" onMouseClicked="#getSelectedPostDetailsWithMouse" prefHeight="384.0" prefWidth="605.0">
-              <columns>
-                <TableColumn fx:id="postIDColumn" prefWidth="51.0" text="Post ID" />
-                <TableColumn fx:id="titleColumn" prefWidth="146.0" text="Title" />
-                  <TableColumn fx:id="descriptionColumn" prefWidth="268.0" text="Description" />
-                  <TableColumn fx:id="statusColumn" prefWidth="68.0" text="Status" />
-                  <TableColumn fx:id="creatorIDColumn" prefWidth="73.0" text="Creator ID" />
-              </columns>
-            </TableView>
-            <ImageView fx:id="postImage" fitHeight="68.0" fitWidth="105.0" layoutX="704.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="postSpecificLabel" alignment="TOP_LEFT" layoutX="626.0" layoutY="97.0" onKeyPressed="#getSelectedPostDetailsWithKeyboard" onMouseClicked="#getSelectedPostDetailsWithMouse" prefHeight="287.0" prefWidth="259.0" wrapText="true">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-            <Label layoutX="724.0" layoutY="6.0" text="Post Image">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Button fx:id="moreDetailsButton" layoutX="68.0" layoutY="396.0" mnemonicParsing="false" onAction="#moreDetailsButtonPushed" text="More Details" />
-            <Button fx:id="replyButton" layoutX="373.0" layoutY="396.0" mnemonicParsing="false" onAction="#replyButtonPushed" text="Reply" />
-            <TextField fx:id="offerValueTextField" layoutX="434.0" layoutY="396.0" prefHeight="25.0" prefWidth="105.0" promptText="Enter Offer Value" />
-            <Button fx:id="joinEventButton" layoutX="226.0" layoutY="396.0" mnemonicParsing="false" onAction="#joinEventButtonPushed" text="Join Event" />
-         </children>
-      </AnchorPane>
-      <Label fx:id="replyStatusLabel" layoutX="224.0" layoutY="539.0" prefHeight="104.0" prefWidth="392.0">
-         <font>
-            <Font name="System Bold Italic" size="13.0" />
-         </font>
-      </Label>
-   </children>
+                    </font>
+                </Label>
+                <Button fx:id="moreDetailsButton" layoutX="68.0" layoutY="396.0" mnemonicParsing="false" onAction="#moreDetailsButtonPushed" text="More Details" />
+                <Button fx:id="replyButton" layoutX="373.0" layoutY="396.0" mnemonicParsing="false" onAction="#replyButtonPushed" text="Reply" />
+                <TextField fx:id="offerValueTextField" layoutX="434.0" layoutY="396.0" prefHeight="25.0" prefWidth="105.0" promptText="Enter Offer Value" />
+                <Button fx:id="joinEventButton" layoutX="226.0" layoutY="396.0" mnemonicParsing="false" onAction="#joinEventButtonPushed" text="Join Event" />
+            </children>
+        </AnchorPane>
+        <Label fx:id="replyStatusLabel" layoutX="224.0" layoutY="539.0" prefHeight="104.0" prefWidth="392.0">
+            <font>
+                <Font name="System Bold Italic" size="13.0" />
+            </font>
+        </Label>
+    </children>
 </AnchorPane>

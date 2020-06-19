@@ -1,5 +1,6 @@
 package model;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
@@ -13,8 +14,8 @@ public abstract class Post {
 	private ArrayList<Reply> replies;
 	private Image photo;
 	private SimpleStringProperty creatorID;
-	private String postOwnId;
-	
+	private int postOwnId ;
+
 	//Constructor
 	public Post(String title, String description, String creatorID) {
 		this.title = new SimpleStringProperty(title);
@@ -34,32 +35,19 @@ public abstract class Post {
 		this.photo = photo;
 	}
 
-	public void saveData() {
-		// Save Post data
-		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
-
-		sqlJdbcAdaptor.insertValue(String.format(
-				"INSERT INTO posts VALUE (%s, %s, %s, %s, %s, %s)",postOwnId,getTitle(),getDescription(),getStatus(),getPhoto().toString(),getCreatorID()
-				));
-
-		for (Reply reply: replies) {
-			reply.saveData();
-		}
-	}
-	
 	//5 getter methods
 	public String getPostId() {
 		return postId.get();
 	}
-	
+
 	public ArrayList<Reply> getReplies() {
 		return replies;
 	}
-	
+
 	public String getTitle() {
 		return title.get();
 	}
-	
+
 	public String getStatus() {
 		return status.get();
 	}
@@ -76,17 +64,21 @@ public abstract class Post {
 		return creatorID.get();
 	}
 
-	public String getPostOwnId(){return this.postOwnId;}
-	
+	public  int getPostOwnId(){return this.postOwnId;}
+
 	//5 setter methods
+	public void setPostOwnId(int postOwnId) {
+		this.postOwnId = postOwnId;
+	}
+
 	public void setPostId(String postId) {
 		this.postId = new SimpleStringProperty(postId);
 	}
-	
+
 	public void setReplies(Reply reply) {
 		this.replies.add(reply);
 	}
-	
+
 	public void setStatus(String s) {
 		this.status = new SimpleStringProperty(s);
 	}
@@ -107,25 +99,23 @@ public abstract class Post {
 		this.description = new SimpleStringProperty(description);
 	}
 
-	public String getPostDetails() { 
+	public String getPostDetails() {
 		StringBuilder str1 = new StringBuilder("Title:         " +getTitle() + "\n");
 		StringBuilder str2 = new StringBuilder("Description:   " +getDescription() + "\n\n");
 		//StringBuilder str3 = new StringBuilder("Status:        " +getStatus() + "\n\n");
 		return str1.append(str2).toString();
 	}
-	
+
 	//This is a dummy method so that it can be overridden by subclass method
 	public String getPostDetails(String vewVal) {
 		String s = "right";
 		return s;
 	}
-	
+
 	public abstract int handleReply(Reply reply);
 	public abstract String getReplyDetails();
 	public abstract void printType();
 	public abstract boolean responseChecker(String resp);
 
-	public void setPostOwnId(String postOwnId) {
-		this.postOwnId = postOwnId;
-	}
+
 }

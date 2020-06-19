@@ -18,13 +18,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import model.Event;
-import model.Post;
-import model.Reply;
-import model.User;
+import model.*;
 import javafx.scene.input.MouseEvent;
+
+import javax.sound.midi.Soundbank;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class MainPageController implements Initializable {
     public static String postIdForReply;
 
     //Variables for FXML file
+    @FXML private AnchorPane anchorID;
     @FXML private Button joinEventButton;
     @FXML private Button moreDetailsButton;
     @FXML private Button replyButton;
@@ -59,8 +63,85 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn<Post,String> statusColumn;
     @FXML private TableColumn<Post,String> creatorIDColumn;
     @FXML private ImageView postImage;
+    @FXML private MenuItem exportOption;
+    @FXML private MenuItem importOption;
+    @FXML private MenuItem developerInformationOption;
     //@FXML private TableColumn<Post, Image> imageColumn;
 
+    /*******************************************************************************************************************
+     * This method exports the data into a file when a export option is selected from the menu bar
+     ******************************************************************************************************************/
+    public void developerOptionSelected(ActionEvent event) {
+
+    }
+
+    /*******************************************************************************************************************
+     * This method exports the data into a file when a export option is selected from the menu bar
+     ******************************************************************************************************************/
+    public void importOptionSelected(ActionEvent event){
+
+
+    }
+
+    /*******************************************************************************************************************
+     * This method exports the data into a file when a export option is selected from the menu bar
+     ******************************************************************************************************************/
+    public void exportOptionSelected(ActionEvent event){
+        final DirectoryChooser dirChooser = new DirectoryChooser();
+        Stage stage = (Stage) anchorID.getScene().getWindow();
+        File file = dirChooser.showDialog(stage);
+
+        if(file != null){
+            System.out.println(file.getAbsolutePath());
+            FileWriter writer = null;
+            try{
+                writer = new FileWriter(file+"/output_data.txt");
+                if(!(MainPageController.listOfUsers.isEmpty())){
+                    for(int i=0; i<MainPageController.listOfUsers.size(); i++){
+                        ArrayList<Post> listOfPosts = MainPageController.listOfUsers.get(i).getUserPosts();
+                        writer.write(MainPageController.listOfUsers.get(i).getUserName());
+                        if(!(listOfPosts.isEmpty())) {
+                            for(int j = 0; j < listOfPosts.size(); j++){
+                                writer.write("; "+listOfPosts.get(j).getPostId()
+                                        +", "+listOfPosts.get(j).getTitle()
+                                        +", "+listOfPosts.get(j).getDescription()
+                                        +", "+listOfPosts.get(j).getStatus()
+                                        +", "+listOfPosts.get(j).getPhoto().toString());
+                                if(listOfPosts.get(j).getPostId().charAt(0) == 'E'){
+                                    writer.write(", "+(((Event)listOfPosts.get(j)).getVenue())
+                                            +", "+(((Event)listOfPosts.get(j)).getDate())
+                                            +", "+(((Event)listOfPosts.get(j)).getCapacity())
+                                            +", "+(((Event)listOfPosts.get(j)).getAttCount()));
+                                }else if(listOfPosts.get(j).getPostId().charAt(0) == 'S'){
+                                    writer.write(", "+(((Sale)listOfPosts.get(j)).getAskPrice())
+                                            +", "+(((Sale)listOfPosts.get(j)).getHighOffer())
+                                            +", "+(((Sale)listOfPosts.get(j)).getMinRaise()));
+                                }else{
+                                    writer.write(", "+(((Job)listOfPosts.get(j)).getPropPrice())
+                                            +", "+(((Job)listOfPosts.get(j)).getLowOffer()));
+                                }
+                                if(!(listOfPosts.get(j).getReplies().isEmpty())){
+                                    for(int k=0; k<listOfPosts.get(j).getReplies().size(); k++) {
+                                        writer.write(", "+listOfPosts.get(j).getReplies().get(k).getReplyId()
+                                                +", "+listOfPosts.get(j).getReplies().get(k).getValue()
+                                                +", "+listOfPosts.get(j).getReplies().get(k).getRespId()
+                                                +", "+listOfPosts.get(j).getReplies().get(k).getPostId());
+                                    }
+                                }
+                                writer.write("\n");
+                            }
+                        }
+                        writer.write("\n");
+                    }
+                }else{
+                    System.out.println("listOfUsers is EMPTY!!");
+                }
+                writer.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     /*******************************************************************************************************************
      * This method Creates a new event post.
@@ -165,8 +246,8 @@ public class MainPageController implements Initializable {
                     String tempPostID = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
                     Post tempPost = MainPageController.listOfUsers.get(i).getUserPosts().get(j);
                     if(tempPostID.equalsIgnoreCase(MainPageController.postIdForReply)) {
+                        int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
                         if (MainPageController.postIdForReply.charAt(0) == 'J') {
-                            int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
                             if(replyAddedOrNot == 0){
                                 replyStatusLabel.setText("Offer not accepted!");
                             }else if(replyAddedOrNot == 1){
@@ -175,7 +256,6 @@ public class MainPageController implements Initializable {
                                 replyStatusLabel.setText("Something went wrong!!");
                             }
                         } else {
-                            int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
                             if(replyAddedOrNot == 0){
                                 replyStatusLabel.setText("Offer not accepted!");
                             }else if(replyAddedOrNot == 1){
@@ -289,7 +369,6 @@ public class MainPageController implements Initializable {
                 moreDetailsButton.setDisable(true);
             }
         }
-        return;
     }
 
     /*******************************************************************************************************************
