@@ -25,6 +25,15 @@ public class Reply {
 		generateReplyId();
 	}
 
+	//Constructor2
+	public Reply(int postIdReply, double value, String userName, String replyId) {
+		this.postId = new SimpleIntegerProperty(postIdReply);
+		this.value = new SimpleDoubleProperty(value);
+		this.respId = new SimpleStringProperty(userName);
+		setReplyNumId(++replyNumId);
+		setReplyId(replyId);
+	}
+
 	public String getReplyId() {
 		return this.replyId;
 	}

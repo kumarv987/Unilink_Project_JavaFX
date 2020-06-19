@@ -34,7 +34,10 @@ public class Job extends Post{
 		generateJobId();
 		super.setPostId(getJobId());
 	}
-
+	public void setId(String eId, int pId) {
+		super.setPostOwnId(pId);
+		this.jobId = eId;
+	}
 	//2 getter methods
 	public int getJobNumId() {
 		return jobNumId;

@@ -163,7 +163,27 @@ public abstract class Post {
 	public abstract int handleReply(Reply reply);
 	public abstract String getReplyDetails();
 	public abstract void printType();
+	public abstract void setId(String eId, int pId);
 	public abstract boolean responseChecker(String resp);
 
 
+	public void getData() throws SQLException, ClassNotFoundException {
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+		List<List<String>> result = sqlJdbcAdaptor.executeQuery(
+				String.format("SELECT * FROM reply WHERE postOwnID=%s", getPostOwnId())
+		);
+
+		if(result.size() > 1) {
+			for(int i = 1; i < result.size(); i++) {
+				List<String> res = result.get(i);
+				Reply reply = new Reply(
+					Integer.parseInt(res.get(1)),
+					Double.parseDouble(res.get(3)),
+					res.get(2),
+					res.get(0)
+				);
+				replies.add(reply);
+			}
+		}
+	}
 }

@@ -36,6 +36,10 @@ public class Sale extends Post{
 		generateSaleId();
 		super.setPostId(getSaleId());
 	}
+	public void setId(String eId, int pId) {
+		super.setPostOwnId(pId);
+		this.saleId = eId;
+	}
 
 	//2 getter methods
 	public int getSaleNumId() {

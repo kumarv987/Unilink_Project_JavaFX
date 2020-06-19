@@ -1,5 +1,6 @@
 package model.hsql_db;
 
+import controller.LoginPageController;
 import controller.MainPageController;
 import javafx.geometry.Pos;
 import model.*;
@@ -95,42 +96,58 @@ public class SQLJdbcAdaptor {
                     +"PRIMARY KEY (replyId),"
                     +"FOREIGN KEY (postOwnID) REFERENCES posts(postOwnID),"
                     +"FOREIGN KEY (respId) REFERENCES user(userID))");
-
-            List<List<String>> result = executeQuery(
-                    "SELECT postOwnID FROM posts ORDER BY postOwnID desc LIMIT 1");
-            if(result.size() > 1) {
-                Post.setPostSpecificID(Integer.parseInt(result.get(1).get(0)));
-            }
-
-            result = executeQuery(
-                    "SELECT eventId FROM event ORDER BY eventId desc LIMIT 1");
-            if(result.size() > 1) {
-                int eventId = Integer.parseInt(result.get(1).get(0).substring(3));
-                Event.setNumId(eventId+1);
-            }
-
-            result = executeQuery(
-                    "SELECT saleId FROM sale ORDER BY saleId desc LIMIT 1");
-            if(result.size() > 1) {
-                int saleId = Integer.parseInt(result.get(1).get(0).substring(3));
-                Sale.setSaleNumId(saleId+1);
-            }
-
-            result = executeQuery(
-                    "SELECT jobId FROM job ORDER BY jobId desc LIMIT 1");
-            if(result.size() > 1) {
-                int jobId = Integer.parseInt(result.get(1).get(0).substring(3));
-                Job.setJobNumId(jobId+1);
-            }
-
-            result = executeQuery(
-                    "SELECT replyId FROM reply ORDER BY replyId desc LIMIT 1");
-            if(result.size() > 1) {
-                int jobId = Integer.parseInt(result.get(1).get(0).substring(3));
-                Reply.setReplyNumId(jobId+1);
-            }
+            // Init starting ID values
+            // Init Memory data
+            systemInit();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void systemInit() throws SQLException, ClassNotFoundException {
+        List<List<String>> result = executeQuery(
+                "SELECT postOwnID FROM posts ORDER BY postOwnID desc LIMIT 1");
+        if(result.size() > 1) {
+            Post.setPostSpecificID(Integer.parseInt(result.get(1).get(0)));
+        }
+
+        result = executeQuery(
+                "SELECT eventId FROM event ORDER BY eventId desc LIMIT 1");
+        if(result.size() > 1) {
+            int eventId = Integer.parseInt(result.get(1).get(0).substring(3));
+            Event.setNumId(eventId+1);
+        }
+
+        result = executeQuery(
+                "SELECT saleId FROM sale ORDER BY saleId desc LIMIT 1");
+        if(result.size() > 1) {
+            int saleId = Integer.parseInt(result.get(1).get(0).substring(3));
+            Sale.setSaleNumId(saleId+1);
+        }
+
+        result = executeQuery(
+                "SELECT jobId FROM job ORDER BY jobId desc LIMIT 1");
+        if(result.size() > 1) {
+            int jobId = Integer.parseInt(result.get(1).get(0).substring(3));
+            Job.setJobNumId(jobId+1);
+        }
+
+        result = executeQuery(
+                "SELECT replyId FROM reply ORDER BY replyId desc LIMIT 1");
+        if(result.size() > 1) {
+            int jobId = Integer.parseInt(result.get(1).get(0).substring(3));
+            Reply.setReplyNumId(jobId+1);
+        }
+
+        // Init Mem
+        result = executeQuery(
+                "SELECT userID FROM user");
+        if(result.size() > 1) {
+            for(List<String> userName: result) {
+                User user = new User(userName.get(0));
+                user.getData();
+                MainPageController.listOfUsers.add(user);
+            }
         }
     }
 
@@ -164,7 +181,6 @@ public class SQLJdbcAdaptor {
                     }
                     resultList.add(rowList);
                 }
-//                System.out.println(resultList);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (NumberFormatException e) {

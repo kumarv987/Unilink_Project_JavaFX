@@ -70,6 +70,11 @@ public class Event extends Post {
 		this.eventId = eId;
 	}
 
+	public void setId(String eId, int pId) {
+		super.setPostOwnId(pId);
+		this.eventId = eId;
+	}
+
 	public static void setNumId(int n) {
 		numId = n;
 	}
@@ -184,7 +189,6 @@ public class Event extends Post {
 			);
 			sqlJdbcAdaptor.insertQuery(query);
 		}
-//		saveReplies();
 	}
 
 	public void printType() {
