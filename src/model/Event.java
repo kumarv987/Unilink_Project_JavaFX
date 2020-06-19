@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Event extends Post {
@@ -69,7 +70,7 @@ public class Event extends Post {
 		this.eventId = eId;
 	}
 
-	public void setNumId(int n) {
+	public static void setNumId(int n) {
 		numId = n;
 	}
 
@@ -162,6 +163,28 @@ public class Event extends Post {
 			}
 		}
 		return str;
+	}
+
+	public void saveData() throws SQLException, ClassNotFoundException {
+		super.saveData();
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+		List<List<String>> postExist = sqlJdbcAdaptor.executeQuery(
+				String.format("SELECT * from event WHERE postOwnID=%d", getPostOwnId())
+		);
+
+		if(postExist.size() == 1) {
+			String query = String.format(
+					"INSERT INTO event VALUES(%d, '%s', '%s', '%s', '%s','%s')",
+					getPostOwnId(),
+					getVenue(),
+					getDate(),
+					getCapacity(),
+					getAttCount(),
+					getEventId()
+			);
+			sqlJdbcAdaptor.insertQuery(query);
+		}
+//		saveReplies();
 	}
 
 	public void printType() {

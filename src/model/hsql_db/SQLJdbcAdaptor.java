@@ -95,6 +95,40 @@ public class SQLJdbcAdaptor {
                     +"PRIMARY KEY (replyId),"
                     +"FOREIGN KEY (postOwnID) REFERENCES posts(postOwnID),"
                     +"FOREIGN KEY (respId) REFERENCES user(userID))");
+
+            List<List<String>> result = executeQuery(
+                    "SELECT postOwnID FROM posts ORDER BY postOwnID desc LIMIT 1");
+            if(result.size() > 1) {
+                Post.setPostSpecificID(Integer.parseInt(result.get(1).get(0)));
+            }
+
+            result = executeQuery(
+                    "SELECT eventId FROM event ORDER BY eventId desc LIMIT 1");
+            if(result.size() > 1) {
+                int eventId = Integer.parseInt(result.get(1).get(0).substring(3));
+                Event.setNumId(eventId+1);
+            }
+
+            result = executeQuery(
+                    "SELECT saleId FROM sale ORDER BY saleId desc LIMIT 1");
+            if(result.size() > 1) {
+                int saleId = Integer.parseInt(result.get(1).get(0).substring(3));
+                Sale.setSaleNumId(saleId+1);
+            }
+
+            result = executeQuery(
+                    "SELECT jobId FROM job ORDER BY jobId desc LIMIT 1");
+            if(result.size() > 1) {
+                int jobId = Integer.parseInt(result.get(1).get(0).substring(3));
+                Job.setJobNumId(jobId+1);
+            }
+
+            result = executeQuery(
+                    "SELECT replyId FROM reply ORDER BY replyId desc LIMIT 1");
+            if(result.size() > 1) {
+                int jobId = Integer.parseInt(result.get(1).get(0).substring(3));
+                Reply.setReplyNumId(jobId+1);
+            }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -106,37 +140,48 @@ public class SQLJdbcAdaptor {
         try (Connection connection = sqlJdbcAdaptor.getConnection(DB_Name);
              Statement statement = connection.createStatement())
         {
-            ResultSet resultSet = statement.executeQuery(sqlStatement);
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            List<String> header = new ArrayList<>();
-            // Header
-            for (int i = 1; i <= columnsNumber; i++) {
-                header.add(rsmd.getColumnName(i));
-            }
-            // Add the header
-            resultList.add(header);
-            // Parsing the returned result
-            while (resultSet.next()) {
-                List<String> rowList = new ArrayList<>();
+            try {
+                System.out.println(sqlStatement);
+                ResultSet resultSet = statement.executeQuery(sqlStatement);
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int columnsNumber = rsmd.getColumnCount();
+                List<String> header = new ArrayList<>();
+                // Header
                 for (int i = 1; i <= columnsNumber; i++) {
-                    if (resultSet.getString(i) != null) {
-                        rowList.add(resultSet.getString(i));
-                    } else {
-                        rowList.add("null");
-                    }
+                    header.add(rsmd.getColumnName(i));
                 }
-                resultList.add(rowList);
+                // Add the header
+                resultList.add(header);
+                // Parsing the returned result
+                while (resultSet.next()) {
+                    List<String> rowList = new ArrayList<>();
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        if (resultSet.getString(i) != null) {
+                            rowList.add(resultSet.getString(i));
+                        } else {
+                            rowList.add("null");
+                        }
+                    }
+                    resultList.add(rowList);
+                }
+//                System.out.println(resultList);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             }
-            System.out.println(resultList);
         }
 
         return resultList;
     }
 
+    /*******************************************************************************************************************
+     * THis method inserts a query
+     ******************************************************************************************************************/
     public void insertQuery(String query){
         try(Connection connection = getConnection(DB_Name);
             Statement statement = connection.createStatement()) {
+            System.out.println("Query: " + query);
             statement.executeUpdate(query);
             connection.commit();
         }catch (SQLException | ClassNotFoundException e) {

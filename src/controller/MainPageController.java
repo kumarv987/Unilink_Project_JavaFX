@@ -39,6 +39,7 @@ public class MainPageController implements Initializable {
     public static final ArrayList<User> listOfUsers = new ArrayList<>();
     public static String currentUserName;
     public static String postIdForReply;
+    public static int postIdReply;
 
     //Variables for FXML file
     @FXML private AnchorPane anchorID;
@@ -240,7 +241,8 @@ public class MainPageController implements Initializable {
         if(offerValueTextField.getText().equalsIgnoreCase("")){
             replyStatusLabel.setText("You must enter offer value first!!");
         }else{
-            Reply reply = new Reply(MainPageController.postIdForReply,Double.parseDouble(offerValueTextField.getText()),MainPageController.currentUserName);
+
+            Reply reply = new Reply(Double.parseDouble(offerValueTextField.getText()));
             for(int i=0; i<MainPageController.listOfUsers.size(); i++) {
                 for (int j = 0; j < MainPageController.listOfUsers.get(i).getUserPosts().size(); j++) {
                     String tempPostID = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
@@ -286,7 +288,7 @@ public class MainPageController implements Initializable {
      * This method allows the user able to attend the Event or not.
      ******************************************************************************************************************/
     public void joinEventButtonPushed(ActionEvent event) throws IOException{
-        Reply reply = new Reply(MainPageController.postIdForReply,1,MainPageController.currentUserName);
+        Reply reply = new Reply(1);
         for(int i=0; i<MainPageController.listOfUsers.size(); i++){
             for(int j=0; j<MainPageController.listOfUsers.get(i).getUserPosts().size(); j++){
                 String tempPostID = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
@@ -325,8 +327,10 @@ public class MainPageController implements Initializable {
     public void getSelectedPostDetailsWithKeyboard(KeyEvent keyEvent) {
         replyStatusLabel.setText("");
         String creatorID = tableView.getSelectionModel().getSelectedItem().getCreatorID();
+        System.out.println("MADARCHOD");
         if (!tableView.getSelectionModel().isEmpty()) {
             MainPageController.postIdForReply = tableView.getSelectionModel().getSelectedItem().getPostId();
+            MainPageController.postIdReply = tableView.getSelectionModel().getSelectedItem().getPostOwnId();
             if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
                 postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());
@@ -378,6 +382,7 @@ public class MainPageController implements Initializable {
         if (!tableView.getSelectionModel().isEmpty()) {
             String creatorID = tableView.getSelectionModel().getSelectedItem().getCreatorID();
             MainPageController.postIdForReply = tableView.getSelectionModel().getSelectedItem().getPostId();
+            MainPageController.postIdReply = tableView.getSelectionModel().getSelectedItem().getPostOwnId();
             if (tableView.getSelectionModel().getSelectedItem().getPostId().charAt(0) == 'E') {
                 postSpecificLabel.setStyle("-fx-background-color:  #66CDAA;");
                 postSpecificLabel.setText(tableView.getSelectionModel().getSelectedItem().getPostDetails());

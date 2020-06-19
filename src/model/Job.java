@@ -6,7 +6,9 @@ import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Job extends Post{
 	private static int jobNumId = 0;
@@ -51,7 +53,7 @@ public class Job extends Post{
 	}
 
 	//2 setter methods
-	public void setJobNumId(int n) {
+	public static void setJobNumId(int n) {
 		jobNumId = n;
 	}
 
@@ -121,6 +123,25 @@ public class Job extends Post{
 			str += temp;
 		}
 		return str;
+	}
+
+	public void saveData() throws SQLException, ClassNotFoundException {
+		super.saveData();
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+		List<List<String>> postExist = sqlJdbcAdaptor.executeQuery(
+				String.format("SELECT * from job WHERE postOwnID=%d", getPostOwnId())
+		);
+
+		if(postExist.size() == 1) {
+			String query = String.format(
+					"INSERT INTO job VALUES(%d, '%s', '%s', '%s')",
+					getPostOwnId(),
+					getJobId(),
+					getPropPrice(),
+					getLowOffer()
+			);
+			sqlJdbcAdaptor.insertQuery(query);
+		}
 	}
 
 	public void printType() {

@@ -5,7 +5,9 @@ import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sale extends Post{
 	private SimpleDoubleProperty askPrice;
@@ -57,7 +59,7 @@ public class Sale extends Post{
 	}
 
 	//2 setter methods
-	public void setSaleNumId(int num) {
+	public static void setSaleNumId(int num) {
 		saleNumId = num;
 	}
 
@@ -147,6 +149,25 @@ public class Sale extends Post{
 
 	public void printType() {
 		System.out.print("Enter your offer or 'Q' to quit: ");
+	}
+	public void saveData() throws SQLException, ClassNotFoundException {
+		super.saveData();
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+		List<List<String>> postExist = sqlJdbcAdaptor.executeQuery(
+				String.format("SELECT * from sale WHERE postOwnID=%d", getPostOwnId())
+		);
+
+		if(postExist.size() == 1) {
+			String query = String.format(
+					"INSERT INTO sale VALUES(%d, '%s', '%s', '%s', '%s')",
+					getPostOwnId(),
+					getAskPrice(),
+					getHighOffer(),
+					getMinRaise(),
+					getSaleId()
+			);
+			sqlJdbcAdaptor.insertQuery(query);
+		}
 	}
 
 	public boolean responseChecker(String resp) {

@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public abstract class Post {
@@ -14,7 +15,8 @@ public abstract class Post {
 	private ArrayList<Reply> replies;
 	private Image photo;
 	private SimpleStringProperty creatorID;
-	private int postOwnId ;
+	private int postOwnId;
+	private static int postSpecificID = 1000;
 
 	//Constructor
 	public Post(String title, String description, String creatorID) {
@@ -24,6 +26,8 @@ public abstract class Post {
 		this.status = new SimpleStringProperty("OPEN");
 		this.replies= new ArrayList<Reply>();
 		this.photo = new Image("file:images/No_image.png");
+		postOwnId = ++postSpecificID;
+		System.out.println("PostOwnID: " + postOwnId);
 	}
 
 	public Post(String title, String desc, Image photo, String creatorID){
@@ -33,6 +37,12 @@ public abstract class Post {
 		this.status = new SimpleStringProperty("OPEN");
 		this.replies=new ArrayList<>();
 		this.photo = photo;
+		postOwnId = ++postSpecificID;
+		System.out.println("PostOwnID: " + postOwnId);
+	}
+
+	public static void setPostSpecificID(int postSpecificID) {
+		Post.postSpecificID = postSpecificID;
 	}
 
 	//5 getter methods
@@ -64,7 +74,7 @@ public abstract class Post {
 		return creatorID.get();
 	}
 
-	public  int getPostOwnId(){return this.postOwnId;}
+	public int getPostOwnId(){return this.postOwnId;}
 
 	//5 setter methods
 	public void setPostOwnId(int postOwnId) {
@@ -110,6 +120,44 @@ public abstract class Post {
 	public String getPostDetails(String vewVal) {
 		String s = "right";
 		return s;
+	}
+
+	public void saveData() throws SQLException, ClassNotFoundException {
+		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+
+		List<List<String>> postExist = sqlJdbcAdaptor.executeQuery(
+				String.format("SELECT * from posts WHERE postOwnID=%d", postOwnId)
+		);
+
+		if(postExist.size() == 1) {
+			String query = String.format(
+					"INSERT INTO posts VALUES(%d, '%s', '%s', '%s', '%s', '%s', '%s')",
+					postOwnId,
+					getPostId().charAt(0),
+					getTitle(),
+					getDescription(),
+					getStatus(),
+					getPhoto(),
+					getCreatorID()
+			);
+			System.out.println("Inside Post");
+			sqlJdbcAdaptor.insertQuery(query);
+		}
+
+	}
+
+	public void saveReplies() {
+		if (!replies.isEmpty()) {
+			for (Reply reply: replies) {
+				try {
+					reply.saveData();
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public abstract int handleReply(Reply reply);

@@ -39,46 +39,15 @@ public class LoginPageController implements Initializable {
      ******************************************************************************************************************/
     public void exitButtonPushed(ActionEvent event) throws SQLException, ClassNotFoundException {
         SQLJdbcAdaptor adaptor = SQLJdbcAdaptor.getInstance();
-        //adaptor.deleteTables();
-        adaptor.initializeTables();
-        //System.out.println("Does user table exist: "+adaptor.checkIfTableExist("user"));
-        if(!(MainPageController.listOfUsers.isEmpty())) { // This statement first saves all the users in the database
-            for (int i = 0; i < MainPageController.listOfUsers.size(); i++) {
-                adaptor.insertValue("user", i, -1, -1);
-            }
+
+        for(User user: MainPageController.listOfUsers){
+            user.saveData();
         }
-        if(!(MainPageController.listOfUsers.isEmpty())){//This statement saves all the info about posts in the database
-            for(int i=0; i<MainPageController.listOfUsers.size(); i++){
-                if(!(MainPageController.listOfUsers.get(i).getUserPosts().isEmpty())) {
-                    for (int j = 0; j < MainPageController.listOfUsers.get(i).getUserPosts().size(); j++) {
-                        adaptor.insertValue("posts",i,j,-1);
-                        if (MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId().charAt(0) == 'E') {
-                            adaptor.insertValue("event", i, j, -1);
-                            if (!(MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().isEmpty())) {
-                                for (int k = 0; k < MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().size(); k++) {
-                                    System.out.println(MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().get(k).getReplyId());
-                                    adaptor.insertValue("reply", i, j, k);
-                                }
-                            }
-                        } else if (MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId().charAt(0) == 'S') {
-                            adaptor.insertValue("sale", i, j, -1);
-                            if (!(MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().isEmpty())) {
-                                for (int k = 0; k < MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().size(); k++) {
-                                    adaptor.insertValue("reply", i, j, k);
-                                }
-                            }
-                        } else {
-                            adaptor.insertValue("job", i, j, -1);
-                            if (!(MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().isEmpty())) {
-                                for (int k = 0; k < MainPageController.listOfUsers.get(i).getUserPosts().get(j).getReplies().size(); k++) {
-                                    adaptor.insertValue("reply", i, j, k);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+
+        for(User user: MainPageController.listOfUsers){
+            user.saveReplies();
         }
+
         //get a handle to the stage
         Stage stage = (Stage) exitButton.getScene().getWindow();
         // do what you have to do
