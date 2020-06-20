@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import model.hsql_db.SQLJdbcAdaptor;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -69,6 +71,13 @@ public class Reply {
 			);
 			sqlJdbcAdaptor.insertQuery(query);
 		}
+	}
+
+	//This method gets the data from the memory and saves it into the export file.
+	public void writeDataToFile(FileWriter writer) throws IOException {
+		writer.write("; "+getRespId()
+				+", "+getValue()
+				+", "+getReplyId());
 	}
 
 	//3 Getter Methods

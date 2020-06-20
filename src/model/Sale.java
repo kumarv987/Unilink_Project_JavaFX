@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,9 +153,6 @@ public class Sale extends Post{
 		return str;
 	}
 
-	public void printType() {
-		System.out.print("Enter your offer or 'Q' to quit: ");
-	}
 	public void saveData() throws SQLException, ClassNotFoundException {
 		super.saveData();
 		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
@@ -174,25 +173,13 @@ public class Sale extends Post{
 		}
 	}
 
-	public boolean responseChecker(String resp) {
-		
-		/*
-		int flag = 0;
-		for(int i=0; i<resp.length(); i++) {
-			if((int)(resp.charAt(i)) >= 48 || (int)(resp.charAt(i)) <= 57 || resp.charAt(i) == "."))) {
-				flag = 0;
-			}
-			else {
-				flag = 1;
-			}
-		}
-		if(flag == 0) {
-			return true;
-		}
-		else {
-			return false;
-		}*/
-		return true;
+	//This method gets the data from the memory and saves it into the export file.
+	public void writeDataToFile(FileWriter writer) throws IOException {
+		super.writeDataToFile(writer);
+		writer.write(", "+getAskPrice()
+					+", "+getHighOffer()
+					+", "+getMinRaise());
+		super.writeRepliesToFile(writer);
 	}
 
 }

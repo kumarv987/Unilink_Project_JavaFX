@@ -4,6 +4,8 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -160,12 +162,27 @@ public abstract class Post {
 		}
 	}
 
+	//This method gets the data from the memory and saves it into the export file.
+	public void writeDataToFile(FileWriter writer) throws IOException {
+		writer.write("; "+getPostId()
+					+", "+getTitle()
+					+", "+getDescription()
+					+", "+getStatus()
+					+", "+getPhoto().toString());
+	}
+
+	//This method writes replies to the file
+	public void writeRepliesToFile(FileWriter writer) throws IOException{
+		if(!replies.isEmpty()){
+			for(Reply reply: replies){
+				reply.writeDataToFile(writer);
+			}
+		}
+	}
+
 	public abstract int handleReply(Reply reply);
 	public abstract String getReplyDetails();
-	public abstract void printType();
 	public abstract void setId(String eId, int pId);
-	public abstract boolean responseChecker(String resp);
-
 
 	public void getData() throws SQLException, ClassNotFoundException {
 		SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();

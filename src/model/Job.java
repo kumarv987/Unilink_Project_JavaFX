@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +147,14 @@ public class Job extends Post{
 			);
 			sqlJdbcAdaptor.insertQuery(query);
 		}
+	}
+
+	//This method gets the data from the memory and saves it into the export file.
+	public void writeDataToFile(FileWriter writer) throws IOException {
+		super.writeDataToFile(writer);
+		writer.write(", "+getPropPrice()
+					+", "+getLowOffer());
+		super.writeRepliesToFile(writer);
 	}
 
 	public void printType() {

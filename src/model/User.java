@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import model.hsql_db.SQLJdbcAdaptor;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,17 @@ public class User {
         this.userPosts.add(post);
     }
 
+    //This method gets the data from the memory and saves it into the export file.
+    public void writeDataToFile(FileWriter writer) throws IOException {
+        writer.write(getUserName());
+        if(!(userPosts.isEmpty())){
+            for(Post post: userPosts){
+                post.writeDataToFile(writer);
+            }
+        }
+    }
+
+    //This method gets the data from the databse and then saves it into the memory
     public void getData() {
         SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
         try {

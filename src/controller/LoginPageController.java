@@ -32,8 +32,6 @@ public class LoginPageController implements Initializable {
     @FXML private Label userNameWarningLabel;
 
 
-
-
     /*******************************************************************************************************************
      * This method saves all the information in the database before logging out of the system.
      ******************************************************************************************************************/
@@ -112,5 +110,4 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }

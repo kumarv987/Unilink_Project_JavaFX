@@ -2,9 +2,7 @@ package model.hsql_db;
 
 import controller.LoginPageController;
 import controller.MainPageController;
-import javafx.geometry.Pos;
 import model.*;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +102,9 @@ public class SQLJdbcAdaptor {
         }
     }
 
+    /*******************************************************************************************************************
+     * THis method gets the data from the database to the memory
+     ******************************************************************************************************************/
     private void systemInit() throws SQLException, ClassNotFoundException {
         List<List<String>> result = executeQuery(
                 "SELECT postOwnID FROM posts ORDER BY postOwnID desc LIMIT 1");
@@ -151,6 +152,9 @@ public class SQLJdbcAdaptor {
         }
     }
 
+    /*******************************************************************************************************************
+     * THis method return a list of data from the database.
+     ******************************************************************************************************************/
     public List<List<String>> executeQuery(String sqlStatement) throws SQLException, ClassNotFoundException {
         List<List<String>> resultList = new ArrayList<>();
 
@@ -187,7 +191,6 @@ public class SQLJdbcAdaptor {
                 e.printStackTrace();
             }
         }
-
         return resultList;
     }
 
@@ -205,10 +208,11 @@ public class SQLJdbcAdaptor {
         }
     }
 
+
     /*******************************************************************************************************************
      * THis method inserts a row in the table selected as the parameter.
      ******************************************************************************************************************/
-    public void insertValue(String table_name, int indexForUsers, int indexForPosts, int indexForReplies) {
+    /*public void insertValue(String table_name, int indexForUsers, int indexForPosts, int indexForReplies) {
         User userInfo = MainPageController.listOfUsers.get(indexForUsers);
         try(Connection connection = getConnection(DB_Name);
             Statement statement = connection.createStatement())
@@ -274,7 +278,7 @@ public class SQLJdbcAdaptor {
                             userInfo.getUserPosts().get(indexForPosts).getPostOwnId(),
                             userInfo.getUserPosts().get(indexForPosts).getReplies().get(indexForReplies).getRespId(),
                             userInfo.getUserPosts().get(indexForPosts).getReplies().get(indexForReplies).getValue());
-                    /*
+
                     statement.executeUpdate(String.format(
                             "INSERT INTO %s VALUES('%s', %d, '%s', %s)",
                             table_name,
@@ -282,7 +286,7 @@ public class SQLJdbcAdaptor {
                             userInfo.getUserPosts().get(indexForPosts).getPostOwnId(),
                             userInfo.getUserPosts().get(indexForPosts).getReplies().get(indexForReplies).getRespId(),
                             userInfo.getUserPosts().get(indexForPosts).getReplies().get(indexForReplies).getValue()));
-*/
+
                     System.out.println(query2);
                     statement.executeUpdate(query2);
                     break;
@@ -292,7 +296,7 @@ public class SQLJdbcAdaptor {
         }catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     /*******************************************************************************************************************
      * THis method return true if table exists, or returns false if table does not exist.

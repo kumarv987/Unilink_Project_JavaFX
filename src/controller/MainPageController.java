@@ -26,6 +26,7 @@ import model.*;
 import javafx.scene.input.MouseEvent;
 
 import javax.sound.midi.Soundbank;
+import javax.xml.transform.sax.SAXSource;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -81,7 +82,6 @@ public class MainPageController implements Initializable {
      ******************************************************************************************************************/
     public void importOptionSelected(ActionEvent event){
 
-
     }
 
     /*******************************************************************************************************************
@@ -93,52 +93,15 @@ public class MainPageController implements Initializable {
         File file = dirChooser.showDialog(stage);
 
         if(file != null){
-            System.out.println(file.getAbsolutePath());
             FileWriter writer = null;
             try{
                 writer = new FileWriter(file+"/output_data.txt");
-                if(!(MainPageController.listOfUsers.isEmpty())){
-                    for(int i=0; i<MainPageController.listOfUsers.size(); i++){
-                        ArrayList<Post> listOfPosts = MainPageController.listOfUsers.get(i).getUserPosts();
-                        writer.write(MainPageController.listOfUsers.get(i).getUserName());
-                        if(!(listOfPosts.isEmpty())) {
-                            for(int j = 0; j < listOfPosts.size(); j++){
-                                writer.write("; "+listOfPosts.get(j).getPostId()
-                                        +", "+listOfPosts.get(j).getTitle()
-                                        +", "+listOfPosts.get(j).getDescription()
-                                        +", "+listOfPosts.get(j).getStatus()
-                                        +", "+listOfPosts.get(j).getPhoto().toString());
-                                if(listOfPosts.get(j).getPostId().charAt(0) == 'E'){
-                                    writer.write(", "+(((Event)listOfPosts.get(j)).getVenue())
-                                            +", "+(((Event)listOfPosts.get(j)).getDate())
-                                            +", "+(((Event)listOfPosts.get(j)).getCapacity())
-                                            +", "+(((Event)listOfPosts.get(j)).getAttCount()));
-                                }else if(listOfPosts.get(j).getPostId().charAt(0) == 'S'){
-                                    writer.write(", "+(((Sale)listOfPosts.get(j)).getAskPrice())
-                                            +", "+(((Sale)listOfPosts.get(j)).getHighOffer())
-                                            +", "+(((Sale)listOfPosts.get(j)).getMinRaise()));
-                                }else{
-                                    writer.write(", "+(((Job)listOfPosts.get(j)).getPropPrice())
-                                            +", "+(((Job)listOfPosts.get(j)).getLowOffer()));
-                                }
-                                if(!(listOfPosts.get(j).getReplies().isEmpty())){
-                                    for(int k=0; k<listOfPosts.get(j).getReplies().size(); k++) {
-                                        writer.write(", "+listOfPosts.get(j).getReplies().get(k).getReplyId()
-                                                +", "+listOfPosts.get(j).getReplies().get(k).getValue()
-                                                +", "+listOfPosts.get(j).getReplies().get(k).getRespId()
-                                                +", "+listOfPosts.get(j).getReplies().get(k).getPostId());
-                                    }
-                                }
-                                writer.write("\n");
-                            }
-                        }
-                        writer.write("\n");
-                    }
-                }else{
-                    System.out.println("listOfUsers is EMPTY!!");
+                for(User user:MainPageController.listOfUsers){
+                    user.writeDataToFile(writer);
+                    writer.write("\n\n");
                 }
                 writer.close();
-            }catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -241,7 +204,6 @@ public class MainPageController implements Initializable {
         if(offerValueTextField.getText().equalsIgnoreCase("")){
             replyStatusLabel.setText("You must enter offer value first!!");
         }else{
-
             Reply reply = new Reply(Double.parseDouble(offerValueTextField.getText()));
             for(int i=0; i<MainPageController.listOfUsers.size(); i++) {
                 for (int j = 0; j < MainPageController.listOfUsers.get(i).getUserPosts().size(); j++) {
