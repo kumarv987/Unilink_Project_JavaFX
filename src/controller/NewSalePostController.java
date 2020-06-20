@@ -94,6 +94,8 @@ public class NewSalePostController implements Initializable{
             }
         } catch (FormNotFilledException e) {
             this.exceptionLabel.setText(e.getMessage());
+        } catch (NumberFormatException e){
+            this.exceptionLabel.setText("Ask Price and Min Raise should be a number!!");
         }
     }
 

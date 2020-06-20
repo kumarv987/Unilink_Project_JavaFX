@@ -23,6 +23,7 @@ public class UniLinkGUI extends Application {
     public void start(Stage stage) throws Exception {
         //Printing information from database
         SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
+        //sqlJdbcAdaptor.deleteTables();
         sqlJdbcAdaptor.initializeTables();
         loginPageEntry(stage);
     }

@@ -1,10 +1,8 @@
 package controller;
 
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,7 +14,6 @@ import model.Post;
 import model.User;
 import javafx.event.ActionEvent;
 import model.hsql_db.SQLJdbcAdaptor;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -63,9 +60,14 @@ public class LoginPageController implements Initializable {
             this.userNameWarningLabel.setText(messageLabelWarning);
         }
         else {
-            //Check if user already exists
+            //Check if user already exists and also validate the username entered
             boolean doesUserExist = checkIfUserExists(userNameTextField.getText());
-            if(doesUserExist == false) {
+            boolean validUser = validateUserName(userNameTextField.getText());
+            System.out.println(validUser);
+            if(validUser == false){
+                this.userNameWarningLabel.setText("Username must start with s");
+            }
+            if(doesUserExist == false && validUser == true) {
                 //Create new instance for user and add it to the listOfUsers
                 User newUser = new User(userNameTextField.getText());
                 MainPageController.listOfUsers.add(newUser);
@@ -73,7 +75,20 @@ public class LoginPageController implements Initializable {
             MainPageController.currentUserName = userNameTextField.getText();
 
             //Going to MainPage
-            changeScreenToMainWindow(event);
+            if(validUser == true) {
+                changeScreenToMainWindow(event);
+            }
+        }
+    }
+
+    /*******************************************************************************************************************
+     * This method validates of the username entered was stated with s or not
+     ******************************************************************************************************************/
+    public boolean validateUserName(String userName){
+        if(userName.charAt(0) == 's'){
+            return true;
+        }else{
+            return false;
         }
     }
 

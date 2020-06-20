@@ -9,7 +9,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewJobPostController">
    <children>
       <Label alignment="CENTER" prefHeight="52.0" prefWidth="700.0" style="-fx-background-color: Add8E6;" text="New Job Post">
@@ -63,6 +62,6 @@
          </padding>
       </HBox>
       <Button fx:id="backButton" layoutX="554.0" layoutY="455.0" mnemonicParsing="false" onAction="#backButtonPushed" text="Back to Main Window" />
-      <Label fx:id="exceptionLabel" layoutX="336.0" layoutY="297.0" prefHeight="25.0" prefWidth="323.0" />
+      <Label fx:id="exceptionLabel" layoutX="336.0" layoutY="297.0" prefHeight="73.0" prefWidth="323.0" />
    </children>
 </AnchorPane>

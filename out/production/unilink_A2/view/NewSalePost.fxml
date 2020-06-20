@@ -9,7 +9,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewSalePostController">
    <children>
       <Label alignment="CENTER" prefHeight="50.0" prefWidth="700.0" style="-fx-background-color: #F4A460;" text="New Sale Post">
@@ -75,6 +74,6 @@
             <Insets left="50.0" />
          </padding>
       </HBox>
-      <Label fx:id="exceptionLabel" layoutX="340.0" layoutY="330.0" prefHeight="44.0" prefWidth="184.0" />
+      <Label fx:id="exceptionLabel" layoutX="340.0" layoutY="330.0" prefHeight="91.0" prefWidth="286.0" />
    </children>
 </AnchorPane>

@@ -164,7 +164,8 @@ public abstract class Post {
 
 	//This method gets the data from the memory and saves it into the export file.
 	public void writeDataToFile(FileWriter writer) throws IOException {
-		writer.write("; "+getPostId()
+		writer.write("; "+getPostOwnId()
+					+", "+getPostId()
 					+", "+getTitle()
 					+", "+getDescription()
 					+", "+getStatus()

@@ -68,6 +68,7 @@ public class NewJobPostController implements Initializable {
         try {
             //This checks for exception
             saveButtonExceptionChecker();
+            Double.parseDouble(propPriceTextField.getText());
 
             //Creating an event post
             for(int i=0; i<MainPageController.listOfUsers.size(); i++){
@@ -93,6 +94,8 @@ public class NewJobPostController implements Initializable {
             }
         } catch (FormNotFilledException e) {
             this.exceptionLabel.setText(e.getMessage());
+        } catch (NumberFormatException e){
+            this.exceptionLabel.setText("Proposed price should be a number!!");
         }
     }
 

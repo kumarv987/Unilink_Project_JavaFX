@@ -20,20 +20,25 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import model.*;
 import javafx.scene.input.MouseEvent;
+import model.exceptions.FormNotFilledException;
+import model.exceptions.InvalidOfferPriceException;
 
 import javax.sound.midi.Soundbank;
 import javax.xml.transform.sax.SAXSource;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class MainPageController implements Initializable {
     //Variables for accessing model package info
@@ -81,7 +86,21 @@ public class MainPageController implements Initializable {
      * This method exports the data into a file when a export option is selected from the menu bar
      ******************************************************************************************************************/
     public void importOptionSelected(ActionEvent event){
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("text file","output_data.txt"));
+        File file = fc.showOpenDialog(null);
+        if(file != null){
+            try (Scanner input = new Scanner(file)){
+                while(input.hasNextLine()){
+                    String[] data = input.nextLine().split(";");
+                    for(String s: data){
 
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*******************************************************************************************************************
@@ -183,46 +202,40 @@ public class MainPageController implements Initializable {
     }
 
     /*******************************************************************************************************************
-     * This method takes the user to the Post detail window and shows more details of the post they created.
+     * This method checks the exception once the reply button is pushed
      ******************************************************************************************************************/
-    public void refreshMainPage(ActionEvent event) throws IOException{
-        //Now loading the new stage
-        Parent parent = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
-        Scene scene = new Scene(parent);
-
-        //This line get the stage information
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setTitle("Main Window");
-        window.setScene(scene);
-        window.show();
+    public void replyButtonExceptionChecker(int a) throws FormNotFilledException,InvalidOfferPriceException {
+        if(replyStatusLabel.getText().equalsIgnoreCase("")){
+            throw new FormNotFilledException("You must enter a offer vale first");
+        }
+        if(a == 0){
+            throw new InvalidOfferPriceException("Offer Not accepted");
+        }
     }
 
     /*******************************************************************************************************************
      * This method allows the user able to Reply to Sale or Job Post.
      ******************************************************************************************************************/
-    public void replyButtonPushed(ActionEvent event) throws IOException{
-        if(offerValueTextField.getText().equalsIgnoreCase("")){
-            replyStatusLabel.setText("You must enter offer value first!!");
-        }else{
+    public void replyButtonPushed(ActionEvent event) {
+        try{
+            int a= 5;
+            replyButtonExceptionChecker(5);
+            Double.parseDouble(offerValueTextField.getText());
             Reply reply = new Reply(Double.parseDouble(offerValueTextField.getText()));
-            for(int i=0; i<MainPageController.listOfUsers.size(); i++) {
+            for (int i = 0; i < MainPageController.listOfUsers.size(); i++) {
                 for (int j = 0; j < MainPageController.listOfUsers.get(i).getUserPosts().size(); j++) {
                     String tempPostID = MainPageController.listOfUsers.get(i).getUserPosts().get(j).getPostId();
                     Post tempPost = MainPageController.listOfUsers.get(i).getUserPosts().get(j);
-                    if(tempPostID.equalsIgnoreCase(MainPageController.postIdForReply)) {
+                    if (tempPostID.equalsIgnoreCase(MainPageController.postIdForReply)) {
                         int replyAddedOrNot = MainPageController.listOfUsers.get(i).getUserPosts().get(j).handleReply(reply);
                         if (MainPageController.postIdForReply.charAt(0) == 'J') {
-                            if(replyAddedOrNot == 0){
-                                replyStatusLabel.setText("Offer not accepted!");
-                            }else if(replyAddedOrNot == 1){
+                            replyButtonExceptionChecker(replyAddedOrNot);
+                            if (replyAddedOrNot == 1) {
                                 replyStatusLabel.setText("Offer accepted!");
-                            }else {
-                                replyStatusLabel.setText("Something went wrong!!");
                             }
                         } else {
-                            if(replyAddedOrNot == 0){
-                                replyStatusLabel.setText("Offer not accepted!");
-                            }else if(replyAddedOrNot == 1){
+                            replyButtonExceptionChecker(replyAddedOrNot);
+                            if (replyAddedOrNot == 1) {
                                 StringBuilder str1 = new StringBuilder("Congratulations! The ");
                                 StringBuilder str2 = new StringBuilder(tempPost.getTitle());
                                 StringBuilder str3 = new StringBuilder(" has been sold to you.\n");
@@ -231,18 +244,21 @@ public class MainPageController implements Initializable {
                                 StringBuilder str6 = new StringBuilder(" for more details.\n");
                                 String s = str1.append(str2).append(str3).append(str4).append(str5).append(str6).toString();
                                 replyStatusLabel.setText(s);
-                            }else if(replyAddedOrNot == 2){
+                            } else if (replyAddedOrNot == 2) {
                                 replyStatusLabel.setText("Your offer has been submitted! \n" +
                                         "However, your offer is below the asking price. " +
                                         "\nThe item is still on sale");
-                            }else{
-                                replyStatusLabel.setStyle("-fx-background-color:   #F4A460;");
-                                replyStatusLabel.setText("Something Went Wrong!!");
                             }
                         }
                     }
                 }
             }
+        }catch(FormNotFilledException e){
+            replyStatusLabel.setText(e.getMessage());
+        }catch (InvalidOfferPriceException e) {
+            replyStatusLabel.setText(e.getMessage());
+        }catch (NumberFormatException e){
+            replyStatusLabel.setText("You must enter a number here!!");
         }
     }
 

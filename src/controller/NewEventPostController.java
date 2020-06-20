@@ -1,5 +1,6 @@
 package controller;
 
+import model.exceptions.DateFormatException;
 import model.exceptions.FormNotFilledException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -24,6 +25,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class NewEventPostController implements Initializable {
@@ -70,6 +74,7 @@ public class NewEventPostController implements Initializable {
         try {
             //This checks for exception
             saveButtonExceptionChecker();
+            Integer.parseInt("capacityTextField.getText()");
 
             //Creating an event post
             for(int i=0; i<MainPageController.listOfUsers.size(); i++){
@@ -99,13 +104,17 @@ public class NewEventPostController implements Initializable {
             }
         } catch (FormNotFilledException e) {
             this.exceptionLabel.setText(e.getMessage());
+        } catch (DateFormatException e){
+            this.exceptionLabel.setText(e.getMessage());
+        } catch (NumberFormatException e){
+            this.exceptionLabel.setText("Capacity should be an integer value");
         }
     }
 
     /*******************************************************************************************************************
      * This method is called by the saveButtonPushed method and checks for the exception.
      ******************************************************************************************************************/
-    public void saveButtonExceptionChecker() throws FormNotFilledException {
+    public void saveButtonExceptionChecker() throws FormNotFilledException, DateFormatException {
         if(nameTextField.getText().equalsIgnoreCase("")){
             throw new FormNotFilledException("You must enter the name before saving!!");
         }
@@ -118,6 +127,24 @@ public class NewEventPostController implements Initializable {
         if(capacityTextField.getText().equalsIgnoreCase("")){
             throw new FormNotFilledException("You must enter the capacity before saving!!");
         }
+        if(dateNotValid(dateTextField.getText())){
+            throw new DateFormatException(("You must enter the date in the following format (MM/dd/yyyy)"));
+        }
+    }
+
+    /*******************************************************************************************************************
+     * This method checks if the date is valid or not
+     ******************************************************************************************************************/
+    public boolean dateNotValid(String strDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(false);
+
+        try{
+            Date javaDate = dateFormat.parse(strDate);
+        }catch (ParseException e){
+            return true;
+        }
+        return false;
     }
 
     /*******************************************************************************************************************

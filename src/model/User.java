@@ -1,11 +1,7 @@
 package model;
 
-import controller.MainPageController;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.geometry.Pos;
 import model.hsql_db.SQLJdbcAdaptor;
-
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -82,7 +78,7 @@ public class User {
         }
     }
 
-    //This method gets the data from the databse and then saves it into the memory
+    //This method gets the data from the database and then saves it into the memory
     public void getData() {
         SQLJdbcAdaptor sqlJdbcAdaptor = SQLJdbcAdaptor.getInstance();
         try {
